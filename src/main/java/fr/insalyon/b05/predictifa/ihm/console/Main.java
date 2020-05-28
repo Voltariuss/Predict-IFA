@@ -20,7 +20,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         JpaUtil.init();
         
-        testRegistrationClient();
+        //testRegistrationClient();
+        testFindOneClientById();
         
         JpaUtil.destroy();
     }
@@ -43,5 +44,11 @@ public class Main {
         );
         
         clientService.registration(newClient);
+    }
+    
+    public static void testFindOneClientById() {
+        ClientService clientService = new ClientService();
+        Client c = clientService.findOneById(1L);
+        System.out.println(c.getId() + ": " + c.getFirstname() + " " + c.getLastname());
     }
 }
