@@ -19,7 +19,7 @@ import javax.persistence.Id;
  */
 @Entity
 @DiscriminatorValue("C")
-public class Client extends Personne {
+public class Client extends Person {
 
     private static final long serialVersionUID = 1L;
     
