@@ -24,10 +24,6 @@ public class Client extends Person {
 
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
     @Column(nullable = false)
     private String zodiac;
     
@@ -48,17 +44,7 @@ public class Client extends Person {
         this.luckyColor = luckyCharm;
         this.totem = totem;
     }
-    
-    
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+   
     public String getZodiac() {
         return zodiac;
     }
@@ -95,7 +81,7 @@ public class Client extends Person {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (this.getId() != null ? this.getId().hashCode() : 0);
         return hash;
     }
 
@@ -106,7 +92,7 @@ public class Client extends Person {
             return false;
         }
         Client other = (Client) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.getId().equals(other.getId()))) {
             return false;
         }
         return true;
@@ -114,7 +100,7 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return "fr.insalyon.b05.predictifa.models.Client[ id=" + id + " ]";
+        return "fr.insalyon.b05.predictifa.models.Client[ id=" + getId() + " ]";
     }
     
 }
