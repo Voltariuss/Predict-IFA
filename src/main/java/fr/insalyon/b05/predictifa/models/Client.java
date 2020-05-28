@@ -35,7 +35,7 @@ public class Client extends Person {
     private String chineseAstro;
     
     @Column(nullable = false)
-    private String luckyCharm;
+    private String luckyColor;
     
     @Column(nullable = false)
     private String totem;
@@ -45,7 +45,7 @@ public class Client extends Person {
         super(mail, password, firstname, lastname, postalAddress, birthDate, phoneNumber, genre);
         this.zodiac = zodiac;
         this.chineseAstro = chineseAstro;
-        this.luckyCharm = luckyCharm;
+        this.luckyColor = luckyCharm;
         this.totem = totem;
     }
     
@@ -76,11 +76,11 @@ public class Client extends Person {
     }
 
     public String getLuckyCharm() {
-        return luckyCharm;
+        return luckyColor;
     }
 
     public void setLuckyCharm(String luckyCharm) {
-        this.luckyCharm = luckyCharm;
+        this.luckyColor = luckyCharm;
     }
 
     public String getTotem() {
