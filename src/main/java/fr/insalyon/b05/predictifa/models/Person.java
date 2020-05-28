@@ -26,7 +26,7 @@ import javax.validation.Constraint;
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-public class Personne implements Serializable {
+public class Person implements Serializable {
     
     public enum Gender {
         F, M
@@ -63,7 +63,23 @@ public class Personne implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender genre;
+    
+    protected Person() {}
+    
+    public Person(String mail, String password, String firstname, String lastname, String postalAddress, Date birthDate, String phoneNumber, Gender genre) {
+        this.mail = mail;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.postalAddress = postalAddress;
+        this.birthDate = birthDate;
+        this.phoneNumber = phoneNumber;
+        this.genre = genre;
+    }
 
+    
+    
+    
     public Long getId() {
         return id;
     }
@@ -148,10 +164,10 @@ public class Personne implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Personne)) {
+        if (!(object instanceof Person)) {
             return false;
         }
-        Personne other = (Personne) object;
+        Person other = (Person) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

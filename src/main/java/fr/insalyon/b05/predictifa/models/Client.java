@@ -6,6 +6,7 @@
 package fr.insalyon.b05.predictifa.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -38,6 +39,15 @@ public class Client extends Person {
     
     @Column(nullable = false)
     private String totem;
+
+    protected Client() {}
+    public Client(String zodiac, String chineseAstro, String luckyCharm, String totem, String mail, String password, String firstname, String lastname, String postalAddress, Date birthDate, String phoneNumber, Gender genre) {
+        super(mail, password, firstname, lastname, postalAddress, birthDate, phoneNumber, genre);
+        this.zodiac = zodiac;
+        this.chineseAstro = chineseAstro;
+        this.luckyCharm = luckyCharm;
+        this.totem = totem;
+    }
     
     
 

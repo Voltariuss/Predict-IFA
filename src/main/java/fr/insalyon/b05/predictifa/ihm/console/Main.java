@@ -6,6 +6,8 @@
 package fr.insalyon.b05.predictifa.ihm.console;
 
 import fr.insalyon.b05.predictifa.dao.JpaUtil;
+import fr.insalyon.b05.predictifa.models.Client;
+import fr.insalyon.b05.predictifa.services.ClientService;
 
 /**
  *
@@ -18,5 +20,13 @@ public class Main {
         System.out.println("succès");
         
         JpaUtil.destroy();
+    }
+    
+    public static void testRegistrationClient() {
+        ClientService clientService = new ClientService();
+        Client newClient = new Client(
+            
+        );
+        clientService.registration(client);
     }
 }
