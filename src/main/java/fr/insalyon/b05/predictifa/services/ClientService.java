@@ -33,4 +33,12 @@ public class ClientService {
             JpaUtil.fermerContextePersistance();
         }
     }
+    
+    public Client findOneById(Long id) {
+        ClientDAO clientDao = new ClientDAO();
+        JpaUtil.creerContextePersistance();
+        Client client = clientDao.getById(id);
+        JpaUtil.fermerContextePersistance();
+        return client;
+    }
 }
