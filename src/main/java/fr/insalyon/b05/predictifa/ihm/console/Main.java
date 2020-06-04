@@ -27,7 +27,7 @@ public class Main {
     }
     
     public static void testRegistrationClient() throws Exception {
-        Service clientService = new Service();
+        Service service = new Service();
         Customer newClient = new Customer(
             "Balance", 
             "Tigre", 
@@ -43,12 +43,12 @@ public class Main {
             Person.Gender.M
         );
         
-        clientService.registration(newClient);
+        service.registration(newClient);
     }
     
     public static void testFindOneClientById() {
-        Service clientService = new Service();
-        Customer c = clientService.findOneById(1L);
+        Service service = new Service();
+        Customer c = service.findCustomerById(1L);
         System.out.println(c.getId() + ": " + c.getFirstname() + " " + c.getLastname());
     }
 }
