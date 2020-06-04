@@ -17,16 +17,16 @@ import java.util.logging.Logger;
  */
 public class Service {
     
-    public void registration(Customer client) throws Exception {
+    public void registration(Customer customer) throws Exception {
         ClientDAO clientDao = new ClientDAO();
         try {
             JpaUtil.creerContextePersistance();
             JpaUtil.ouvrirTransaction();
-            clientDao.create(client);
+            clientDao.create(customer);
             JpaUtil.validerTransaction();
-            Logger.getAnonymousLogger().log(Level.INFO, "Success - Client registration: " + client);
+            Logger.getAnonymousLogger().log(Level.INFO, "Success - Client registration: " + customer);
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Client registration: " + client, ex);
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Client registration: " + customer, ex);
             JpaUtil.annulerTransaction();
             throw ex;
         } finally {
