@@ -34,7 +34,7 @@ public class Service {
         }
     }
     
-    public Customer findOneById(Long id) {
+    public Customer findCustomerById(Long id) {
         ClientDAO clientDao = new ClientDAO();
         JpaUtil.creerContextePersistance();
         Customer client = clientDao.getById(id);
