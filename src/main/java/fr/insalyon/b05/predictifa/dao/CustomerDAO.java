@@ -16,7 +16,7 @@ public class CustomerDAO {
         JpaUtil.obtenirContextePersistance().persist(customer);
     }
     
-    public Customer getById(Long id) {
+    public Customer getById(long id) {
         return JpaUtil.obtenirContextePersistance().find(Customer.class, id);
     }
 }
