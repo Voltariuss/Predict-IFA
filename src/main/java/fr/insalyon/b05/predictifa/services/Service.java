@@ -5,9 +5,11 @@
  */
 package fr.insalyon.b05.predictifa.services;
 
-import fr.insalyon.b05.predictifa.dao.ClientDAO;
+import fr.insalyon.b05.predictifa.dao.CustomerDAO;
 import fr.insalyon.b05.predictifa.dao.JpaUtil;
+import fr.insalyon.b05.predictifa.dao.PersonDAO;
 import fr.insalyon.b05.predictifa.models.Customer;
+import fr.insalyon.b05.predictifa.models.Person;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,16 +19,35 @@ import java.util.logging.Logger;
  */
 public class Service {
     
+    // ----------------------------------
+    // User service
+    // ----------------------------------
+    Person authenticate(String login, String password) {
+        PersonDAO personDao = new PersonDAO();
+        
+        JpaUtil.creerContextePersistance();
+        Person person = personDao.getByLogin(login, password);
+        JpaUtil.fermerContextePersistance();
+        
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - authenticate: " + personDao);
+        
+        return person;
+    }
+    
+    // ----------------------------------
+    // Customer service
+    // ----------------------------------
+    
     public void registration(Customer customer) throws Exception {
-        ClientDAO clientDao = new ClientDAO();
+        CustomerDAO customerDao = new CustomerDAO();
         try {
             JpaUtil.creerContextePersistance();
             JpaUtil.ouvrirTransaction();
-            clientDao.create(customer);
+            customerDao.create(customer);
             JpaUtil.validerTransaction();
-            Logger.getAnonymousLogger().log(Level.INFO, "Success - Client registration: " + customer);
+            Logger.getAnonymousLogger().log(Level.INFO, "Success - Customer registration: " + customer);
         } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Client registration: " + customer, ex);
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Customer registration: " + customer, ex);
             JpaUtil.annulerTransaction();
             throw ex;
         } finally {
@@ -35,10 +56,14 @@ public class Service {
     }
     
     public Customer findCustomerById(Long id) {
-        ClientDAO clientDao = new ClientDAO();
+        CustomerDAO customerDao = new CustomerDAO();
+       
         JpaUtil.creerContextePersistance();
-        Customer client = clientDao.getById(id);
+        Customer customer = customerDao.getById(id);
         JpaUtil.fermerContextePersistance();
-        return client;
+        
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - Get customer by id: " + customer);
+        
+        return customer;
     }
 }
