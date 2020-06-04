@@ -38,7 +38,7 @@ public class Service {
     // Customer service
     // ----------------------------------
     
-    public void registration(Customer customer) throws Exception {
+    public void registerCustomer(Customer customer) throws Exception {
         CustomerDAO customerDao = new CustomerDAO();
         try {
             JpaUtil.creerContextePersistance();

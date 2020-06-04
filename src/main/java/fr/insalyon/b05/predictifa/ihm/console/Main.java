@@ -43,7 +43,7 @@ public class Main {
             Person.Gender.M
         );
         
-        service.registration(newClient);
+        service.registerCustomer(newClient);
     }
     
     public static void testFindOneClientById() {
