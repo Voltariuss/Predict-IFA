@@ -11,9 +11,9 @@ import fr.insalyon.b05.predictifa.models.Customer;
  *
  * @author aleryc
  */
-public class ClientDAO {
-    public void create(Customer client) {
-        JpaUtil.obtenirContextePersistance().persist(client);
+public class CustomerDAO {
+    public void create(Customer customer) {
+        JpaUtil.obtenirContextePersistance().persist(customer);
     }
     
     public Customer getById(Long id) {
