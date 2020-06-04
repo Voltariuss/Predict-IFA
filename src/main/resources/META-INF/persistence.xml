@@ -4,6 +4,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>fr.insalyon.b05.predictifa.models.Person</class>
     <class>fr.insalyon.b05.predictifa.models.Customer</class>
+    <class>fr.insalyon.b05.predictifa.models.Employee</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/predictifa"/>

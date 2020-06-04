@@ -6,9 +6,11 @@
 package fr.insalyon.b05.predictifa.services;
 
 import fr.insalyon.b05.predictifa.dao.CustomerDAO;
+import fr.insalyon.b05.predictifa.dao.EmployeeDAO;
 import fr.insalyon.b05.predictifa.dao.JpaUtil;
 import fr.insalyon.b05.predictifa.dao.PersonDAO;
 import fr.insalyon.b05.predictifa.models.Customer;
+import fr.insalyon.b05.predictifa.models.Employee;
 import fr.insalyon.b05.predictifa.models.Person;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,5 +67,20 @@ public class Service {
         Logger.getAnonymousLogger().log(Level.INFO, "Success - Get customer by id: " + customer);
         
         return customer;
+    }
+
+    // ----------------------------------
+    // Employee service
+    // ----------------------------------
+    public Employee findEmployeeById(Long id) {
+        EmployeeDAO employeeDao = new EmployeeDAO();
+       
+        JpaUtil.creerContextePersistance();
+        Employee employee = employeeDao.getById(id);
+        JpaUtil.fermerContextePersistance();
+        
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - Get employee by id: " + employee);
+        
+        return employee;
     }
 }
