@@ -6,6 +6,7 @@
 package fr.insalyon.b05.predictifa.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -26,6 +27,22 @@ public class Employee extends Person {
     @Column(nullable = false)
     private String proPhoneNumber;
 
+    public String getProPhoneNumber() {
+        return proPhoneNumber;
+    }
+
+    public void setProPhoneNumber(String proPhoneNumber) {
+        this.proPhoneNumber = proPhoneNumber;
+    }
+    
+    protected Employee() {}
+
+    public Employee(String proPhoneNumber, String mail, String password, String firstname, String lastname, String postalAddress, Date birthDate, String phoneNumber, Gender genre) {
+        super(mail, password, firstname, lastname, postalAddress, birthDate, phoneNumber, genre);
+        this.proPhoneNumber = proPhoneNumber;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;
