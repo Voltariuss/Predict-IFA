@@ -20,7 +20,7 @@ import javax.persistence.Id;
  */
 @Entity
 @DiscriminatorValue("C")
-public class Client extends Person {
+public class Customer extends Person {
 
     private static final long serialVersionUID = 1L;
     
@@ -36,8 +36,8 @@ public class Client extends Person {
     @Column(nullable = false)
     private String totem;
 
-    protected Client() {}
-    public Client(String zodiac, String chineseAstro, String luckyCharm, String totem, String mail, String password, String firstname, String lastname, String postalAddress, Date birthDate, String phoneNumber, Gender genre) {
+    protected Customer() {}
+    public Customer(String zodiac, String chineseAstro, String luckyCharm, String totem, String mail, String password, String firstname, String lastname, String postalAddress, Date birthDate, String phoneNumber, Gender genre) {
         super(mail, password, firstname, lastname, postalAddress, birthDate, phoneNumber, genre);
         this.zodiac = zodiac;
         this.chineseAstro = chineseAstro;
@@ -88,10 +88,10 @@ public class Client extends Person {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Client)) {
+        if (!(object instanceof Customer)) {
             return false;
         }
-        Client other = (Client) object;
+        Customer other = (Customer) object;
         if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.getId().equals(other.getId()))) {
             return false;
         }

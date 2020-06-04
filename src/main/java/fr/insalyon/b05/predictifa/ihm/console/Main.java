@@ -6,9 +6,9 @@
 package fr.insalyon.b05.predictifa.ihm.console;
 
 import fr.insalyon.b05.predictifa.dao.JpaUtil;
-import fr.insalyon.b05.predictifa.models.Client;
+import fr.insalyon.b05.predictifa.models.Customer;
 import fr.insalyon.b05.predictifa.models.Person;
-import fr.insalyon.b05.predictifa.services.ClientService;
+import fr.insalyon.b05.predictifa.services.Service;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -27,8 +27,8 @@ public class Main {
     }
     
     public static void testRegistrationClient() throws Exception {
-        ClientService clientService = new ClientService();
-        Client newClient = new Client(
+        Service clientService = new Service();
+        Customer newClient = new Customer(
             "Balance", 
             "Tigre", 
             "Bleu", 
@@ -47,8 +47,8 @@ public class Main {
     }
     
     public static void testFindOneClientById() {
-        ClientService clientService = new ClientService();
-        Client c = clientService.findOneById(1L);
+        Service clientService = new Service();
+        Customer c = clientService.findOneById(1L);
         System.out.println(c.getId() + ": " + c.getFirstname() + " " + c.getLastname());
     }
 }

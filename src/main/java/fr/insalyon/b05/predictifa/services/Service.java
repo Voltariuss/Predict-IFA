@@ -7,7 +7,7 @@ package fr.insalyon.b05.predictifa.services;
 
 import fr.insalyon.b05.predictifa.dao.ClientDAO;
 import fr.insalyon.b05.predictifa.dao.JpaUtil;
-import fr.insalyon.b05.predictifa.models.Client;
+import fr.insalyon.b05.predictifa.models.Customer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,9 +15,9 @@ import java.util.logging.Logger;
  *
  * @author aleryc
  */
-public class ClientService {
+public class Service {
     
-    public void registration(Client client) throws Exception {
+    public void registration(Customer client) throws Exception {
         ClientDAO clientDao = new ClientDAO();
         try {
             JpaUtil.creerContextePersistance();
@@ -34,10 +34,10 @@ public class ClientService {
         }
     }
     
-    public Client findOneById(Long id) {
+    public Customer findOneById(Long id) {
         ClientDAO clientDao = new ClientDAO();
         JpaUtil.creerContextePersistance();
-        Client client = clientDao.getById(id);
+        Customer client = clientDao.getById(id);
         JpaUtil.fermerContextePersistance();
         return client;
     }
