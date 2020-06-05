@@ -27,7 +27,7 @@ public class ConsultationDAO {
         JpaUtil.obtenirContextePersistance().merge(consultation);
     }
 
-    public Consultation getCurrentConsultation(Customer customer) {
+    public Consultation getCustomerCurrentConsultation(Customer customer) {
         String query = "select c from Consultation c"
                 + " where c.customer = :customer"
                 + " and c.endDate is null";
@@ -43,5 +43,17 @@ public class ConsultationDAO {
         } else {
             return result.get(0);
         }
+    }
+
+    public List<Consultation> getCustomerConsultations(Customer customer) {
+        String query = "select c from Consultation c"
+                + " where c.customer = :customer";
+        
+        TypedQuery<Consultation> consultation = JpaUtil.obtenirContextePersistance()
+                .createNamedQuery(query, Consultation.class);
+        
+        consultation.setParameter("customer", customer);
+        
+        return consultation.getResultList();
     }
 }

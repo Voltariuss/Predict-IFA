@@ -14,6 +14,7 @@ import fr.insalyon.b05.predictifa.models.Consultation;
 import fr.insalyon.b05.predictifa.models.Customer;
 import fr.insalyon.b05.predictifa.models.Employee;
 import fr.insalyon.b05.predictifa.models.Person;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -96,14 +97,31 @@ public class Service {
         JpaUtil.creerContextePersistance();
         Customer customer = customerDao.getById(idCustomer);
         if (customer == null) {
-            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getCurrentConsultation: Customer not found");
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getCustomerCurrentConsultation: Customer not found");
             throw new Exception("Customer not found");
         }
-        Consultation consultation = consultationDao.getCurrentConsultation(customer);
-        Logger.getAnonymousLogger().log(Level.INFO, "Success - getCurrentConsultation: " + consultation);
+        Consultation consultation = consultationDao.getCustomerCurrentConsultation(customer);
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - getCustomerCurrentConsultation: " + consultation);
 
         JpaUtil.fermerContextePersistance();
         return consultation;
     }
     
+    public List<Consultation> getCustomerConsultations(long idCustomer) throws Exception {
+        ConsultationDAO consultationDao = new ConsultationDAO();
+        CustomerDAO customerDao = new CustomerDAO();
+        
+        JpaUtil.creerContextePersistance();
+        Customer customer = customerDao.getById(idCustomer);
+        if (customer == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getCustomerConsultations: Customer not found");
+            throw new Exception("Customer not found");
+        }
+        
+        List<Consultation> consultations = consultationDao.getCustomerConsultations(customer);
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - getCustomerConsultations: " + consultations.size());
+
+        JpaUtil.fermerContextePersistance();
+        return consultations;
+    }
 }
