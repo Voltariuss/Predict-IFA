@@ -18,7 +18,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Constraint;
 
 /**
  *
@@ -27,10 +26,6 @@ import javax.validation.Constraint;
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Person implements Serializable {
-    
-    public enum Gender {
-        F, M
-    }
     
     private static final long serialVersionUID = 1L;
     

@@ -8,10 +8,13 @@ package fr.insalyon.b05.predictifa.services;
 import fr.insalyon.b05.predictifa.dao.CustomerDAO;
 import fr.insalyon.b05.predictifa.dao.EmployeeDAO;
 import fr.insalyon.b05.predictifa.dao.JpaUtil;
+import fr.insalyon.b05.predictifa.dao.MediumDAO;
 import fr.insalyon.b05.predictifa.dao.PersonDAO;
 import fr.insalyon.b05.predictifa.models.Customer;
 import fr.insalyon.b05.predictifa.models.Employee;
+import fr.insalyon.b05.predictifa.models.Medium;
 import fr.insalyon.b05.predictifa.models.Person;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,5 +85,50 @@ public class Service {
         Logger.getAnonymousLogger().log(Level.INFO, "Success - Get employee by id: " + employee);
         
         return employee;
+    }
+    
+    // ----------------------------------
+    // Medium service
+    // ----------------------------------
+    public void registerMedium(Medium medium) throws Exception {
+        MediumDAO mediumDao = new MediumDAO();
+        
+        try {
+            JpaUtil.creerContextePersistance();
+            JpaUtil.ouvrirTransaction();
+            mediumDao.insert(medium);
+            JpaUtil.validerTransaction();
+            Logger.getAnonymousLogger().log(Level.FINE, "Success - Medium registration: {0}", medium);
+        } catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Medium registration: " + medium, ex);
+            throw ex;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+    }
+    
+    public Medium getMediumById(long id) {
+        MediumDAO mediumDao = new MediumDAO();
+        
+        JpaUtil.creerContextePersistance();
+        Medium medium = mediumDao.find(id);
+        JpaUtil.fermerContextePersistance();
+        
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - Get medium by id: " + medium);
+        
+        return medium;
+    }
+    
+    public List<Medium> getAllMediums() {
+        MediumDAO mediumDao = new MediumDAO();
+        
+        JpaUtil.creerContextePersistance();
+        List<Medium> mediums = mediumDao.findAll();
+        JpaUtil.fermerContextePersistance();
+        
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - Get all mediums: " + mediums);
+        
+        return mediums;
     }
 }
