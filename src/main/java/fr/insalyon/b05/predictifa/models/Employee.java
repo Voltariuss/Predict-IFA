@@ -7,12 +7,15 @@ package fr.insalyon.b05.predictifa.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -26,14 +29,11 @@ public class Employee extends Person {
     
     @Column(nullable = false)
     private String proPhoneNumber;
+    
+    @OneToMany(mappedBy = "employee")
+    private List<Consultation> consultations;
 
-    public String getProPhoneNumber() {
-        return proPhoneNumber;
-    }
-
-    public void setProPhoneNumber(String proPhoneNumber) {
-        this.proPhoneNumber = proPhoneNumber;
-    }
+    
     
     protected Employee() {}
 
@@ -42,6 +42,27 @@ public class Employee extends Person {
         this.proPhoneNumber = proPhoneNumber;
     }
     
+    public String getProPhoneNumber() {
+        return proPhoneNumber;
+    }
+
+    public void setProPhoneNumber(String proPhoneNumber) {
+        this.proPhoneNumber = proPhoneNumber;
+    }
+    
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+    
+    public void addConsultation(Consultation consultation) {
+        this.consultations.add(consultation);
+        consultation.setEmployee(this);
+    }
+    
+    public void removeConsultation(Consultation consultation) {
+        this.consultations.remove(consultation);
+        consultation.setEmployee(null);
+    }
     
     @Override
     public int hashCode() {
