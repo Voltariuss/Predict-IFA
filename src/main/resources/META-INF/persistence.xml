@@ -5,7 +5,11 @@
     <class>fr.insalyon.b05.predictifa.models.Person</class>
     <class>fr.insalyon.b05.predictifa.models.Customer</class>
     <class>fr.insalyon.b05.predictifa.models.Employee</class>
+<<<<<<< HEAD
     <class>fr.insalyon.b05.predictifa.models.Medium</class>
+=======
+    <class>fr.insalyon.b05.predictifa.models.Consultation</class>
+>>>>>>> origin/consultations
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/predictifa"/>

@@ -171,7 +171,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.b05.predictifa.models.Personne[ id=" + id + " ]";
+        return "fr.insalyon.b05.predictifa.models.Person[ id=" + id + " ]";
     }
     
 }

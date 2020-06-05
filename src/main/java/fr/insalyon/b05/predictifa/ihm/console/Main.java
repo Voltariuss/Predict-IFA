@@ -6,9 +6,15 @@
 package fr.insalyon.b05.predictifa.ihm.console;
 
 import fr.insalyon.b05.predictifa.dao.JpaUtil;
+import fr.insalyon.b05.predictifa.models.Consultation;
 import fr.insalyon.b05.predictifa.models.Customer;
+<<<<<<< HEAD
 import fr.insalyon.b05.predictifa.models.Gender;
 import fr.insalyon.b05.predictifa.models.Medium;
+=======
+import fr.insalyon.b05.predictifa.models.Employee;
+import fr.insalyon.b05.predictifa.models.Person;
+>>>>>>> origin/consultations
 import fr.insalyon.b05.predictifa.services.Service;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -22,13 +28,40 @@ public class Main {
     public static void main(String[] args) throws Exception {
         JpaUtil.init();
         
-        testRegistrationClient();
-        testRegistrationMedium();
-        testFindOneClientById();
-        testFindMedium();
-        testFindAllMediums();
-        
+        //testRegistrationClient();
+        //testRegistrationMedium();
+        //testFindOneClientById();
+        //testFindMedium();
+        //testFindAllMediums();
+        //testFindOneClientById();
+        //testFindOneEmployeeById();
+        //testFindEmployeeCurrentConsultation();
+        //testFindEmployeeConsultations();
         JpaUtil.destroy();
+    }
+    
+    public static void testFindCustomerCurrentConsultation() throws Exception {
+        Service service = new Service();
+        Consultation consultation = service.getCustomerCurrentConsultation(1L);
+        System.out.println(consultation); 
+    }
+    
+    public static void testFindEmployeeCurrentConsultation() throws Exception {
+        Service service = new Service();
+        Consultation consultation2 = service.getEmployeeCurrentConsultation(2L);
+        System.out.println(consultation2);
+        
+        Consultation consultation3 = service.getEmployeeCurrentConsultation(3L);
+        System.out.println(consultation3);
+    }
+    
+    public static void testFindEmployeeConsultations() throws Exception {
+        Service service = new Service();
+        List<Consultation> consultation2 = service.getEmployeeConsultations(2L);
+        System.out.println(consultation2.size());
+        
+        List<Consultation> consultation3 = service.getEmployeeConsultations(3L);
+        System.out.println(consultation3.size());
     }
     
     public static void testRegistrationClient() throws Exception {
@@ -74,5 +107,11 @@ public class Main {
         Service service = new Service();
         Customer c = service.findCustomerById(1L);
         System.out.println(c.getId() + ": " + c.getFirstname() + " " + c.getLastname());
+    }
+    
+    public static void testFindOneEmployeeById() {
+        Service service = new Service();
+        Employee e = service.findEmployeeById(2L);
+        System.out.println(e.getId() + ": " + e.getFirstname() + " " + e.getLastname());
     }
 }

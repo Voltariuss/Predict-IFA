@@ -16,7 +16,7 @@ import javax.persistence.TypedQuery;
 public class PersonDAO {
     public Person getByLogin(String login, String password) {
         TypedQuery<Person> query = JpaUtil.obtenirContextePersistance()
-                .createNamedQuery("select p from Person p where p.mail = :mail and p.password = :password", Person.class);
+                .createQuery("select p from Person p where p.mail = :mail and p.password = :password", Person.class);
         
         query.setParameter("mail", login);
         query.setParameter("password", password);
