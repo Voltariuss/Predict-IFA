@@ -89,7 +89,7 @@ public class Service {
     // ----------------------------------
     // Consultation service
     // ----------------------------------
-    public Consultation getCurrentConsultation(long idCustomer) throws Exception {
+    public Consultation getCustomerCurrentConsultation(long idCustomer) throws Exception {
         ConsultationDAO consultationDao = new ConsultationDAO();
         CustomerDAO customerDao = new CustomerDAO();
         
