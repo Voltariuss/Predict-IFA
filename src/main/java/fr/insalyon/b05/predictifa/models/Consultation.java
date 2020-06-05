@@ -50,16 +50,17 @@ public class Consultation implements Serializable {
     @JoinColumn(nullable = false)
     private Customer customer;
     
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private Medium medium;
+    
     protected Consultation() {}
     
-    public Consultation(Long id, Date requestDate, Date startDate, Date endDate, String commentary, Employee employee, Customer customer) {
-        this.id = id;
-        this.requestDate = requestDate;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.commentary = commentary;
+    public Consultation(Employee employee, Customer customer, Medium medium) {
+        this.requestDate = new Date();
         this.employee = employee;
         this.customer = customer;
+        this.medium = medium;
     }
     
     
@@ -117,6 +118,14 @@ public class Consultation implements Serializable {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Medium getMedium() {
+        return medium;
+    }
+
+    public void setMedium(Medium medium) {
+        this.medium = medium;
     }
     
     @Override
