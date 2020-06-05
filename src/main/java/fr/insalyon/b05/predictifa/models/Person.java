@@ -57,11 +57,11 @@ public class Person implements Serializable {
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Gender genre;
+    private Gender gender;
     
     protected Person() {}
     
-    public Person(String mail, String password, String firstname, String lastname, String postalAddress, Date birthDate, String phoneNumber, Gender genre) {
+    public Person(String mail, String password, String firstname, String lastname, String postalAddress, Date birthDate, String phoneNumber, Gender gender) {
         this.mail = mail;
         this.password = password;
         this.firstname = firstname;
@@ -69,7 +69,7 @@ public class Person implements Serializable {
         this.postalAddress = postalAddress;
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
-        this.genre = genre;
+        this.gender = gender;
     }
 
     
@@ -139,12 +139,12 @@ public class Person implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Gender getGenre() {
-        return genre;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setGenre(Gender genre) {
-        this.genre = genre;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
     
     
