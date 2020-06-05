@@ -24,6 +24,14 @@ public class Medium implements Serializable {
     
     @Column(nullable = false)
     private String presentation;
+    
+    public Medium() {}
+    
+    public Medium(String denomination, Gender gender, String presentation) {
+        this.denomination = denomination;
+        this.gender = gender;
+        this.presentation = presentation;
+    }
 
     public Long getId() {
         return id;
