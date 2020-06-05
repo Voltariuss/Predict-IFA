@@ -33,7 +33,7 @@ public class ConsultationDAO {
                 + " where c.customer = :customer"
                 + " and c.endDate is null";
         TypedQuery<Consultation> consultation = JpaUtil.obtenirContextePersistance()
-                .createNamedQuery(query, Consultation.class);
+                .createQuery(query, Consultation.class);
         
         consultation.setParameter("customer", customer);
         
@@ -52,7 +52,7 @@ public class ConsultationDAO {
                 + " order by c.requestDate";
         
         TypedQuery<Consultation> consultation = JpaUtil.obtenirContextePersistance()
-                .createNamedQuery(query, Consultation.class);
+                .createQuery(query, Consultation.class);
         
         consultation.setParameter("customer", customer);
         
@@ -64,7 +64,7 @@ public class ConsultationDAO {
                 + " where c.employee = :employee"
                 + " and c.endDate is null";
         TypedQuery<Consultation> consultation = JpaUtil.obtenirContextePersistance()
-                .createNamedQuery(query, Consultation.class);
+                .createQuery(query, Consultation.class);
         
         consultation.setParameter("employee", employee);
         
@@ -83,7 +83,7 @@ public class ConsultationDAO {
                 + " order by c.requestDate";
         
         TypedQuery<Consultation> consultation = JpaUtil.obtenirContextePersistance()
-                .createNamedQuery(query, Consultation.class);
+                .createQuery(query, Consultation.class);
         
         consultation.setParameter("employee", employee);
         

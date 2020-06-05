@@ -132,7 +132,7 @@ public class Service {
         JpaUtil.creerContextePersistance();
         Employee employee = employeeDAO.getById(idEmployee);
         if (employee == null) {
-            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeCurrentConsultation: Customer not found");
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeCurrentConsultation: Employee not found");
             throw new Exception("Employee not found");
         }
         Consultation consultation = consultationDao.getEmployeeCurrentConsultation(employee);
@@ -149,7 +149,7 @@ public class Service {
         JpaUtil.creerContextePersistance();
         Employee employee = employeeDao.getById(idEmployee);
         if (employee == null) {
-            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeConsultations: Customer not found");
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeConsultations: Employee not found");
             throw new Exception("Employee not found");
         }
         
