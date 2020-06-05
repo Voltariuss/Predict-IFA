@@ -124,4 +124,39 @@ public class Service {
         JpaUtil.fermerContextePersistance();
         return consultations;
     }
+    
+    public Consultation getEmployeeCurrentConsultation(long idEmployee) throws Exception {
+        ConsultationDAO consultationDao = new ConsultationDAO();
+        EmployeeDAO employeeDAO = new EmployeeDAO();
+        
+        JpaUtil.creerContextePersistance();
+        Employee employee = employeeDAO.getById(idEmployee);
+        if (employee == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeCurrentConsultation: Customer not found");
+            throw new Exception("Employee not found");
+        }
+        Consultation consultation = consultationDao.getEmployeeCurrentConsultation(employee);
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - getEmployeeCurrentConsultation: " + consultation);
+
+        JpaUtil.fermerContextePersistance();
+        return consultation;
+    }
+    
+    public List<Consultation> getEmployeeConsultations(long idEmployee) throws Exception {
+        ConsultationDAO consultationDao = new ConsultationDAO();
+        EmployeeDAO employeeDao = new EmployeeDAO();
+        
+        JpaUtil.creerContextePersistance();
+        Employee employee = employeeDao.getById(idEmployee);
+        if (employee == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeConsultations: Customer not found");
+            throw new Exception("Employee not found");
+        }
+        
+        List<Consultation> consultations = consultationDao.getEmployeeConsultations(employee);
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - getEmployeeConsultations: " + consultations.size());
+
+        JpaUtil.fermerContextePersistance();
+        return consultations;
+    }
 }
