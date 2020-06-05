@@ -17,6 +17,7 @@ import fr.insalyon.b05.predictifa.models.Customer;
 import fr.insalyon.b05.predictifa.models.Employee;
 import fr.insalyon.b05.predictifa.models.Medium;
 import fr.insalyon.b05.predictifa.models.Person;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -155,14 +156,143 @@ public class Service {
     // ----------------------------------
     // Consultation service
     // ----------------------------------
+    public Consultation initConsultation(long idCustomer, long idMedium) throws Exception {
+        CustomerDAO customerDao = new CustomerDAO();
+        MediumDAO mediumDao = new MediumDAO();
+        EmployeeDAO employeeDao = new EmployeeDAO();
+        ConsultationDAO consultationDao = new ConsultationDAO();
+        
+        JpaUtil.creerContextePersistance();
+        
+        Customer customer = customerDao.getById(idCustomer);
+        if (customer == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - initConsultation: Customer not found");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("Customer not found");
+        }
+        
+        Medium medium = mediumDao.find(idMedium);
+        if (medium == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - initConsultation: Medium not found");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("Medium not found");
+        }
+        
+        // Vérifier que le client n'a pas de consultation en cours
+        Consultation consultation = consultationDao.getCustomerCurrentConsultation(customer);
+        if (consultation != null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - initConsultation: Customer already in consultation");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("Customer already in consultation");
+        }
+        
+        // Trouver un employé disponible pour la consultation
+        Employee employee = employeeDao.findOneAvailable(medium);
+        if (employee == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - initConsultation: There is no available employee");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("There is no available employee");
+        }
+        
+        // Créer la consultation
+        Consultation newConsultation = new Consultation(employee, customer, medium);
+        
+        try {
+            JpaUtil.ouvrirTransaction();
+            consultationDao.create(newConsultation);
+            JpaUtil.validerTransaction();
+            Logger.getAnonymousLogger().log(Level.INFO, "Success - initConsultation");
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - initConsultation: error creation", ex);
+            JpaUtil.annulerTransaction();
+            throw new Exception("Error creation");
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+       
+        return newConsultation;
+    }
+    
+    public void startConsultation(long idConsultation) throws Exception {
+        ConsultationDAO consultationDao = new ConsultationDAO();
+        
+        JpaUtil.creerContextePersistance();
+        
+        Consultation consultation = consultationDao.getById(idConsultation);
+        if (consultation == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - startConsultation: Consultation not found");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("Consultation not found");
+        }
+        
+        if (consultation.getStartDate() != null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - startConsultation: Consultation already started");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("Consultation already started");
+        }
+        
+        consultation.setStartDate(new Date());
+        
+        try {
+            JpaUtil.ouvrirTransaction();
+            consultationDao.update(consultation);
+            JpaUtil.validerTransaction();
+            Logger.getAnonymousLogger().log(Level.INFO, "Success - startConsultation");
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - startConsultation: error update", ex);
+            JpaUtil.annulerTransaction();
+            throw new Exception("Error update");
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        
+    }
+    
+    public void endConsultation(long idConsultation)throws Exception {
+        ConsultationDAO consultationDao = new ConsultationDAO();
+        
+        JpaUtil.creerContextePersistance();
+        
+        Consultation consultation = consultationDao.getById(idConsultation);
+        if (consultation == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - endConsultation: Consultation not found");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("Consultation not found");
+        }
+        
+        if (consultation.getEndDate() != null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - endConsultation: Consultation already ended");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("Consultation already ended");
+        }
+        
+        consultation.setEndDate(new Date());
+        
+        try {
+            JpaUtil.ouvrirTransaction();
+            consultationDao.update(consultation);
+            JpaUtil.validerTransaction();
+            Logger.getAnonymousLogger().log(Level.INFO, "Success - endConsultation");
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - endConsultation: error update", ex);
+            JpaUtil.annulerTransaction();
+            throw new Exception("Error update");
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        
+    }
+    
     public Consultation getCustomerCurrentConsultation(long idCustomer) throws Exception {
         ConsultationDAO consultationDao = new ConsultationDAO();
         CustomerDAO customerDao = new CustomerDAO();
         
         JpaUtil.creerContextePersistance();
+        
         Customer customer = customerDao.getById(idCustomer);
         if (customer == null) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getCustomerCurrentConsultation: Customer not found");
+            JpaUtil.fermerContextePersistance();
             throw new Exception("Customer not found");
         }
         Consultation consultation = consultationDao.getCustomerCurrentConsultation(customer);
@@ -180,6 +310,7 @@ public class Service {
         Customer customer = customerDao.getById(idCustomer);
         if (customer == null) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getCustomerConsultations: Customer not found");
+            JpaUtil.fermerContextePersistance();
             throw new Exception("Customer not found");
         }
         
@@ -198,6 +329,7 @@ public class Service {
         Employee employee = employeeDAO.getById(idEmployee);
         if (employee == null) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeCurrentConsultation: Employee not found");
+            JpaUtil.fermerContextePersistance();
             throw new Exception("Employee not found");
         }
         Consultation consultation = consultationDao.getEmployeeCurrentConsultation(employee);
@@ -214,7 +346,8 @@ public class Service {
         JpaUtil.creerContextePersistance();
         Employee employee = employeeDao.getById(idEmployee);
         if (employee == null) {
-            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeConsultations: Employee not found");
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeConsultations: Employee not found");       
+            JpaUtil.fermerContextePersistance();
             throw new Exception("Employee not found");
         }
         
