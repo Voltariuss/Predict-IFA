@@ -5,10 +5,12 @@
  */
 package fr.insalyon.b05.predictifa.services;
 
+import fr.insalyon.b05.predictifa.dao.ConsultationDAO;
 import fr.insalyon.b05.predictifa.dao.CustomerDAO;
 import fr.insalyon.b05.predictifa.dao.EmployeeDAO;
 import fr.insalyon.b05.predictifa.dao.JpaUtil;
 import fr.insalyon.b05.predictifa.dao.PersonDAO;
+import fr.insalyon.b05.predictifa.models.Consultation;
 import fr.insalyon.b05.predictifa.models.Customer;
 import fr.insalyon.b05.predictifa.models.Employee;
 import fr.insalyon.b05.predictifa.models.Person;
@@ -57,7 +59,7 @@ public class Service {
         }
     }
     
-    public Customer findCustomerById(Long id) {
+    public Customer findCustomerById(long id) {
         CustomerDAO customerDao = new CustomerDAO();
        
         JpaUtil.creerContextePersistance();
@@ -72,7 +74,7 @@ public class Service {
     // ----------------------------------
     // Employee service
     // ----------------------------------
-    public Employee findEmployeeById(Long id) {
+    public Employee findEmployeeById(long id) {
         EmployeeDAO employeeDao = new EmployeeDAO();
        
         JpaUtil.creerContextePersistance();
@@ -83,4 +85,25 @@ public class Service {
         
         return employee;
     }
+    
+    // ----------------------------------
+    // Consultation service
+    // ----------------------------------
+    public Consultation getCurrentConsultation(long idCustomer) throws Exception {
+        ConsultationDAO consultationDao = new ConsultationDAO();
+        CustomerDAO customerDao = new CustomerDAO();
+        
+        JpaUtil.creerContextePersistance();
+        Customer customer = customerDao.getById(idCustomer);
+        if (customer == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getCurrentConsultation: Customer not found");
+            throw new Exception("Customer not found");
+        }
+        Consultation consultation = consultationDao.getCurrentConsultation(customer);
+        Logger.getAnonymousLogger().log(Level.INFO, "Success - getCurrentConsultation: " + consultation);
+
+        JpaUtil.fermerContextePersistance();
+        return consultation;
+    }
+    
 }
