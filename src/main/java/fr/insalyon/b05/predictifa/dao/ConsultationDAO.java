@@ -29,15 +29,15 @@ public class ConsultationDAO {
     }
 
     public Consultation getCustomerCurrentConsultation(Customer customer) {
-        String query = "select c from Consultation c"
+        String jpql = "select c from Consultation c"
                 + " where c.customer = :customer"
                 + " and c.endDate is null";
-        TypedQuery<Consultation> consultation = JpaUtil.obtenirContextePersistance()
-                .createQuery(query, Consultation.class);
+        TypedQuery<Consultation> query = JpaUtil.obtenirContextePersistance()
+                .createQuery(jpql, Consultation.class);
         
-        consultation.setParameter("customer", customer);
+        query.setParameter("customer", customer);
         
-        List<Consultation> result = consultation.getResultList();
+        List<Consultation> result = query.getResultList();
         
         if (result.isEmpty()) {
             return null;
@@ -47,28 +47,28 @@ public class ConsultationDAO {
     }
 
     public List<Consultation> getCustomerConsultations(Customer customer) {
-        String query = "select c from Consultation c"
+        String jpql = "select c from Consultation c"
                 + " where c.customer = :customer"
                 + " order by c.requestDate";
         
-        TypedQuery<Consultation> consultation = JpaUtil.obtenirContextePersistance()
-                .createQuery(query, Consultation.class);
+        TypedQuery<Consultation> query = JpaUtil.obtenirContextePersistance()
+                .createQuery(jpql, Consultation.class);
         
-        consultation.setParameter("customer", customer);
+        query.setParameter("customer", customer);
         
-        return consultation.getResultList();
+        return query.getResultList();
     }
     
     public Consultation getEmployeeCurrentConsultation(Employee employee) {
-        String query = "select c from Consultation c"
+        String jpql = "select c from Consultation c"
                 + " where c.employee = :employee"
                 + " and c.endDate is null";
-        TypedQuery<Consultation> consultation = JpaUtil.obtenirContextePersistance()
-                .createQuery(query, Consultation.class);
+        TypedQuery<Consultation> query = JpaUtil.obtenirContextePersistance()
+                .createQuery(jpql, Consultation.class);
         
-        consultation.setParameter("employee", employee);
+        query.setParameter("employee", employee);
         
-        List<Consultation> result = consultation.getResultList();
+        List<Consultation> result = query.getResultList();
         
         if (result.isEmpty()) {
             return null;
@@ -78,15 +78,15 @@ public class ConsultationDAO {
     }
 
     public List<Consultation> getEmployeeConsultations(Employee employee) {
-        String query = "select c from Consultation c"
+        String jpql = "select c from Consultation c"
                 + " where c.employee = :employee"
                 + " order by c.requestDate";
         
-        TypedQuery<Consultation> consultation = JpaUtil.obtenirContextePersistance()
-                .createQuery(query, Consultation.class);
+        TypedQuery<Consultation> query = JpaUtil.obtenirContextePersistance()
+                .createQuery(jpql, Consultation.class);
         
-        consultation.setParameter("employee", employee);
+        query.setParameter("employee", employee);
         
-        return consultation.getResultList();
+        return query.getResultList();
     }
 }
