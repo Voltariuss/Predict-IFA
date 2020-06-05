@@ -7,10 +7,12 @@ package fr.insalyon.b05.predictifa.ihm.console;
 
 import fr.insalyon.b05.predictifa.dao.JpaUtil;
 import fr.insalyon.b05.predictifa.models.Customer;
-import fr.insalyon.b05.predictifa.models.Person;
+import fr.insalyon.b05.predictifa.models.Gender;
+import fr.insalyon.b05.predictifa.models.Medium;
 import fr.insalyon.b05.predictifa.services.Service;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  *
@@ -20,8 +22,11 @@ public class Main {
     public static void main(String[] args) throws Exception {
         JpaUtil.init();
         
-        //testRegistrationClient();
+        testRegistrationClient();
+        testRegistrationMedium();
         testFindOneClientById();
+        testFindMedium();
+        testFindAllMediums();
         
         JpaUtil.destroy();
     }
@@ -40,10 +45,29 @@ public class Main {
             "11 rue des élites 69100 Villeurbanne", 
             new GregorianCalendar(1997, Calendar.FEBRUARY, 11).getTime(), 
             "0712486521", 
-            Person.Gender.M
+            Gender.M
         );
         
         service.registerCustomer(newClient);
+    }
+    
+    public static void testRegistrationMedium() throws Exception {
+        Service service = new Service();
+        Medium medium = new Medium("Serena", Gender.F, "Je suis Serena");
+        service.registerMedium(medium);
+    }
+    
+    public static void testFindMedium() {
+        Service service = new Service();
+        long id = 2;
+        Medium medium = service.getMediumById(id);
+        System.out.println("Medium trouvé : " + medium);
+    }
+    
+    public static void testFindAllMediums() {
+        Service service = new Service();
+        List<Medium> mediums = service.getAllMediums();
+        System.out.println("Liste des médiums trouvés : " + mediums);
     }
     
     public static void testFindOneClientById() {
