@@ -90,6 +90,24 @@ public class Service {
     // ----------------------------------
     // Medium service
     // ----------------------------------
+    public void registerMedium(Medium medium) throws Exception {
+        MediumDAO mediumDao = new MediumDAO();
+        
+        try {
+            JpaUtil.creerContextePersistance();
+            JpaUtil.ouvrirTransaction();
+            mediumDao.insert(medium);
+            JpaUtil.validerTransaction();
+            Logger.getAnonymousLogger().log(Level.FINE, "Success - Medium registration: {0}", medium);
+        } catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Medium registration: " + medium, ex);
+            throw ex;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+    }
+    
     public Medium getMediumById(long id) {
         MediumDAO mediumDao = new MediumDAO();
         
