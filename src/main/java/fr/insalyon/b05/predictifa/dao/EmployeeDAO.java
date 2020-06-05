@@ -6,6 +6,9 @@
 package fr.insalyon.b05.predictifa.dao;
 
 import fr.insalyon.b05.predictifa.models.Employee;
+import fr.insalyon.b05.predictifa.models.Medium;
+import java.util.List;
+import javax.persistence.Query;
 
 /**
  *
@@ -14,5 +17,26 @@ import fr.insalyon.b05.predictifa.models.Employee;
 public class EmployeeDAO {
     public Employee getById(long id) {
         return JpaUtil.obtenirContextePersistance().find(Employee.class, id);
+    }
+
+    public Employee findOneAvailable(Medium medium) {
+        String jpql = "select e, count(c) from Employee e left join e.consultations c"
+                + " where e not in (select e from Consultation c join c.employee e where c.endDate is null)"
+                + " and e.gender = :gender"
+                + " group by e"
+                + " order by count(c)";
+        
+        Query query = JpaUtil.obtenirContextePersistance()
+                .createQuery(jpql);
+        
+        query.setParameter("gender", medium.getGender());
+        query.setMaxResults(1);
+        
+        List<Object[]> result = query.getResultList();
+        if (result.isEmpty()) {
+            return null;
+        } else {
+            return (Employee) result.get(0)[0];
+        }
     }
 }
