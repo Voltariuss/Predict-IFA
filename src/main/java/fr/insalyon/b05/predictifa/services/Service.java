@@ -44,6 +44,8 @@ public class Service {
     // ----------------------------------
     
     public void registerCustomer(Customer customer) throws Exception {
+        // TODO : use AstroAPI to fetch profile
+        
         CustomerDAO customerDao = new CustomerDAO();
         try {
             JpaUtil.creerContextePersistance();
