@@ -92,7 +92,6 @@ public class Service {
     }
     
     // ----------------------------------
-<<<<<<< HEAD
     // Medium service
     // ----------------------------------
     public void registerMedium(Medium medium) throws Exception {
@@ -135,7 +134,9 @@ public class Service {
         Logger.getAnonymousLogger().log(Level.INFO, "Success - Get all mediums: " + mediums);
         
         return mediums;
-=======
+    }
+    
+    // ----------------------------------
     // Consultation service
     // ----------------------------------
     public Consultation getCustomerCurrentConsultation(long idCustomer) throws Exception {
@@ -206,6 +207,5 @@ public class Service {
 
         JpaUtil.fermerContextePersistance();
         return consultations;
->>>>>>> origin/consultations
     }
 }
