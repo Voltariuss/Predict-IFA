@@ -25,7 +25,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         JpaUtil.init();
         
-        testRegistrationClient();
+        //testRegistrationClient();
         //testRegistrationMedium();
         //testFindOneClientById();
         //testFindMedium();
@@ -34,8 +34,29 @@ public class Main {
         //testFindOneEmployeeById();
         //testFindEmployeeCurrentConsultation();
         //testFindEmployeeConsultations();
+        //testInitConsultation();
+        //testStartConsultation();
+        testEndConsultation();
+        
         JpaUtil.destroy();
     }
+    
+    public static void testInitConsultation() throws Exception {
+        Service service = new Service();
+        Consultation consultation = service.initConsultation(1, 2);
+        System.out.println(consultation);
+    }
+    
+    public static void testStartConsultation() throws Exception {
+        Service service = new Service();
+        service.startConsultation(51);
+    }
+    
+    public static void testEndConsultation() throws Exception {
+        Service service = new Service();
+        service.endConsultation(51);
+    }
+    
     
     public static void testFindCustomerCurrentConsultation() throws Exception {
         Service service = new Service();
