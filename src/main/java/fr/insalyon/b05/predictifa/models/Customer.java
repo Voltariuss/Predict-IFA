@@ -35,14 +35,10 @@ public class Customer extends Person {
     
     @Column(nullable = false)
     private String totem;
-
+    
     protected Customer() {}
-    public Customer(String zodiac, String chineseAstro, String luckyCharm, String totem, String mail, String password, String firstname, String lastname, String postalAddress, Date birthDate, String phoneNumber, Gender genre) {
+    public Customer(String mail, String password, String firstname, String lastname, String postalAddress, Date birthDate, String phoneNumber, Gender genre) {
         super(mail, password, firstname, lastname, postalAddress, birthDate, phoneNumber, genre);
-        this.zodiac = zodiac;
-        this.chineseAstro = chineseAstro;
-        this.luckyColor = luckyCharm;
-        this.totem = totem;
     }
    
     public String getZodiac() {
@@ -61,12 +57,12 @@ public class Customer extends Person {
         this.chineseAstro = chineseAstro;
     }
 
-    public String getLuckyCharm() {
+    public String getLuckyColor() {
         return luckyColor;
     }
 
-    public void setLuckyCharm(String luckyCharm) {
-        this.luckyColor = luckyCharm;
+    public void setLuckyColor(String luckyColor) {
+        this.luckyColor = luckyColor;
     }
 
     public String getTotem() {

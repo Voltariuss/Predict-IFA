@@ -5,6 +5,7 @@
  */
 package fr.insalyon.b05.predictifa.services;
 
+import fr.insalyon.b05.predictifa.astro.AstroAPI;
 import fr.insalyon.b05.predictifa.dao.ConsultationDAO;
 import fr.insalyon.b05.predictifa.dao.CustomerDAO;
 import fr.insalyon.b05.predictifa.dao.EmployeeDAO;
@@ -48,7 +49,22 @@ public class Service {
     public void registerCustomer(Customer customer) throws Exception {
         // TODO : use AstroAPI to fetch profile
         
+        AstroAPI astro = new AstroAPI();
         CustomerDAO customerDao = new CustomerDAO();
+        List<String> profile = null;
+        
+        try {
+            profile = astro.getProfil(customer.getFirstname(), customer.getBirthDate());
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Astro Get Profile: " + customer, ex);
+            throw new Exception("Failed Astro Get Profile");
+        }
+        
+        customer.setZodiac(profile.get(0));
+        customer.setChineseAstro(profile.get(1));
+        customer.setLuckyColor(profile.get(2));
+        customer.setTotem(profile.get(3));
+        
         try {
             JpaUtil.creerContextePersistance();
             JpaUtil.ouvrirTransaction();
@@ -58,7 +74,7 @@ public class Service {
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Customer registration: " + customer, ex);
             JpaUtil.annulerTransaction();
-            throw ex;
+            throw new Exception("Failed registration customer");
         } finally {
             JpaUtil.fermerContextePersistance();
         }
