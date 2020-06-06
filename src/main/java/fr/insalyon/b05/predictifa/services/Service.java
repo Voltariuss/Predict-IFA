@@ -5,7 +5,7 @@
  */
 package fr.insalyon.b05.predictifa.services;
 
-import fr.insalyon.b05.predictifa.astro.AstroAPI;
+import fr.insalyon.b05.predictifa.util.AstroNet;
 import fr.insalyon.b05.predictifa.dao.ConsultationDAO;
 import fr.insalyon.b05.predictifa.dao.CustomerDAO;
 import fr.insalyon.b05.predictifa.dao.EmployeeDAO;
@@ -15,8 +15,13 @@ import fr.insalyon.b05.predictifa.dao.PersonDAO;
 import fr.insalyon.b05.predictifa.models.Consultation;
 import fr.insalyon.b05.predictifa.models.Customer;
 import fr.insalyon.b05.predictifa.models.Employee;
+import fr.insalyon.b05.predictifa.models.Gender;
 import fr.insalyon.b05.predictifa.models.Medium;
 import fr.insalyon.b05.predictifa.models.Person;
+import fr.insalyon.b05.predictifa.util.Message;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,9 +34,99 @@ import java.util.logging.Logger;
 public class Service {
     
     // ----------------------------------
+    // Message service
+    // ----------------------------------
+    
+    private static final String CONTACT_MAIL = "contact@predict.ifa";
+   
+    private void sendNotifRegistrationSuccess(Customer customer) {
+        StringWriter mail = new StringWriter();
+        PrintWriter mailWriter = new PrintWriter(mail);
+        
+        mailWriter.print("Bonjour ");
+        mailWriter.print(customer.getFirstname());
+        mailWriter.println(", nous vous confirmons votre inscription au service PREDICT’IFA.");
+        mailWriter.println("Rendez-vous vite sur notre site pour consulter votre profil astrologique et profiter des dons incroyables de nos médiums.");
+        
+        Message.envoyerMail(
+            CONTACT_MAIL, 
+            customer.getMail(), 
+            "Bienvenue chez PREDICT’IFA", 
+            mail.toString()
+        ); 
+    }
+    
+    private void sendNotifRegistrationFail(Customer customer) {
+        StringWriter mail = new StringWriter();
+        PrintWriter mailWriter = new PrintWriter(mail);
+        
+        mailWriter.print("Bonjour ");
+        mailWriter.print(customer.getFirstname());
+        mailWriter.println(", votre inscription au service PREDICT’IFA a malencontreusement échoué...");
+        mailWriter.println("Merci de recommencer ultérieurement.");
+        
+        Message.envoyerMail(
+            CONTACT_MAIL, 
+            customer.getMail(), 
+            "Échec de l’inscription chez PREDICT’IFA", 
+            mail.toString()
+        ); 
+    }
+    
+    private void sendNotifConsultationRequest(Consultation consultation, Customer customer, Employee employee, Medium medium) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy à HH:mm");
+        
+        StringWriter mailCustomer = new StringWriter();
+        PrintWriter mailCustomerWriter = new PrintWriter(mailCustomer);
+        
+        mailCustomerWriter.print("Bonjour ");
+        mailCustomerWriter.print(customer.getFirstname());
+        mailCustomerWriter.println(".");
+        mailCustomerWriter.print("J'ai bien reçu votre demande de consultation du ");
+        mailCustomerWriter.print(dateFormat.format(consultation.getRequestDate()));
+        mailCustomerWriter.println(".");
+        mailCustomerWriter.print("Vous pouvez dès à présent me contacter au ");
+        mailCustomerWriter.print(employee.getProPhoneNumber());
+        mailCustomerWriter.println(". À tout de suite !");
+        mailCustomerWriter.print("Médiumiquement vôtre, ");
+        mailCustomerWriter.println(medium.getDenomination());
+        
+        Message.envoyerNotification(
+            customer.getPhoneNumber(), 
+            mailCustomer.toString()
+        );
+        
+        StringWriter mailEmployee = new StringWriter();
+        PrintWriter mailEmployeeWriter = new PrintWriter(mailEmployee);
+        
+        mailEmployeeWriter.print("Bonjour ");
+        mailEmployeeWriter.print(employee.getFirstname());
+        mailEmployeeWriter.println(".");
+        mailEmployeeWriter.print("Consultation requise pour ");
+        
+        if (customer.getGender() == Gender.F) {
+            mailEmployeeWriter.print("Mme ");
+        } else {
+            mailEmployeeWriter.print("M ");
+        }
+        
+        mailEmployeeWriter.print(customer.getFirstname());
+        mailEmployeeWriter.print(" ");
+        mailEmployeeWriter.println(customer.getLastname());
+        mailEmployeeWriter.print("Médium à incarner : ");
+        mailEmployeeWriter.println(medium.getDenomination());
+        
+        Message.envoyerNotification(
+            employee.getProPhoneNumber(), 
+            mailEmployee.toString()
+        );
+    }
+    
+    
+    // ----------------------------------
     // User service
     // ----------------------------------
-    Person authenticate(String login, String password) {
+    public Person authenticate(String login, String password) {
         PersonDAO personDao = new PersonDAO();
         
         JpaUtil.creerContextePersistance();
@@ -48,9 +143,9 @@ public class Service {
     // ----------------------------------
     
     public void registerCustomer(Customer customer) throws Exception {
-        // TODO : use AstroAPI to fetch profile
+        // TODO : use AstroNet to fetch profile
         
-        AstroAPI astro = new AstroAPI();
+        AstroNet astro = new AstroNet();
         CustomerDAO customerDao = new CustomerDAO();
         List<String> profile = null;
         
@@ -71,10 +166,18 @@ public class Service {
             JpaUtil.ouvrirTransaction();
             customerDao.create(customer);
             JpaUtil.validerTransaction();
+            
+            // Envoyer mail de notification succès au client
+            sendNotifRegistrationSuccess(customer);
+            
             Logger.getAnonymousLogger().log(Level.INFO, "Success - Customer registration: " + customer);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Customer registration: " + customer, ex);
             JpaUtil.annulerTransaction();
+            
+            // Envoyer mail de notification erreur au client
+            sendNotifRegistrationFail(customer);
+            
             throw new Exception("Failed registration customer");
         } finally {
             JpaUtil.fermerContextePersistance();
@@ -179,8 +282,8 @@ public class Service {
         }
         
         // Vérifier que le client n'a pas de consultation en cours
-        Consultation consultation = consultationDao.getCustomerCurrentConsultation(customer);
-        if (consultation != null) {
+        Consultation currentConsultation = consultationDao.getCustomerCurrentConsultation(customer);
+        if (currentConsultation != null) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - initConsultation: Customer already in consultation");       
             JpaUtil.fermerContextePersistance();
             throw new Exception("Customer already in consultation");
@@ -201,6 +304,10 @@ public class Service {
             JpaUtil.ouvrirTransaction();
             consultationDao.create(newConsultation);
             JpaUtil.validerTransaction();
+            
+            // Envoyer SMS de notification à l'employé et au client
+            sendNotifConsultationRequest(newConsultation, customer, employee, medium);
+            
             Logger.getAnonymousLogger().log(Level.INFO, "Success - initConsultation");
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - initConsultation: error creation", ex);
@@ -209,7 +316,7 @@ public class Service {
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-       
+        
         return newConsultation;
     }
     
