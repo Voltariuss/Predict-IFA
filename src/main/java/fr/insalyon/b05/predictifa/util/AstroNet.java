@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.insalyon.b05.predictifa.astro;
+package fr.insalyon.b05.predictifa.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -29,7 +29,7 @@ import org.apache.http.message.BasicNameValuePair;
  *
  * @author aleryc
  */
-public class AstroAPI {
+public class AstroNet {
     final static String MA_CLE_ASTRO_API = "ASTRO-01-M0lGLURBU0ktQVNUUk8tQjAx";
 
     public static final String ENCODING_UTF8 = "UTF-8";
@@ -41,7 +41,7 @@ public class AstroAPI {
     /*
      * Constructeur
      */
-    public AstroAPI() {
+    public AstroNet() {
     }
 
     /*
