@@ -16,7 +16,7 @@ import fr.insalyon.b05.predictifa.models.Consultation;
 import fr.insalyon.b05.predictifa.models.Customer;
 import fr.insalyon.b05.predictifa.models.Employee;
 import fr.insalyon.b05.predictifa.models.Gender;
-import fr.insalyon.b05.predictifa.models.Medium;
+import fr.insalyon.b05.predictifa.models.medium.Medium;
 import fr.insalyon.b05.predictifa.models.Person;
 import fr.insalyon.b05.predictifa.util.Message;
 import java.io.PrintWriter;

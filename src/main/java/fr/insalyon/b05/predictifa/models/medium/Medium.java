@@ -1,5 +1,6 @@
-package fr.insalyon.b05.predictifa.models;
+package fr.insalyon.b05.predictifa.models.medium;
 
+import fr.insalyon.b05.predictifa.models.Gender;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,7 @@ public class Medium implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(nullable = false)

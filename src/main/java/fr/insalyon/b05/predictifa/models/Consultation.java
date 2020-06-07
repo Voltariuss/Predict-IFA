@@ -5,6 +5,7 @@
  */
 package fr.insalyon.b05.predictifa.models;
 
+import fr.insalyon.b05.predictifa.models.medium.Medium;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;

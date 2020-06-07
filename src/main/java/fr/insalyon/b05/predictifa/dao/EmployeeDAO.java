@@ -6,7 +6,7 @@
 package fr.insalyon.b05.predictifa.dao;
 
 import fr.insalyon.b05.predictifa.models.Employee;
-import fr.insalyon.b05.predictifa.models.Medium;
+import fr.insalyon.b05.predictifa.models.medium.Medium;
 import java.util.List;
 import javax.persistence.Query;
 
