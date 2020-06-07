@@ -15,7 +15,20 @@ import javax.persistence.Query;
  * @author aleryc
  */
 public class EmployeeDAO {
-    public Employee getById(long id) {
+    
+    public void insert(Employee employee) {
+        JpaUtil.obtenirContextePersistance().persist(employee);
+    }
+    
+    public void update(Employee employee) {
+        JpaUtil.obtenirContextePersistance().merge(employee);
+    }
+    
+    public void delete(Employee employee) {
+        JpaUtil.obtenirContextePersistance().remove(employee);
+    }
+    
+    public Employee find(long id) {
         return JpaUtil.obtenirContextePersistance().find(Employee.class, id);
     }
 

@@ -199,11 +199,29 @@ public class Service {
     // ----------------------------------
     // Employee service
     // ----------------------------------
+    public void registerEmployee(Employee employee) throws Exception {
+        EmployeeDAO employeeDAO = new EmployeeDAO();
+        
+        try {
+            JpaUtil.creerContextePersistance();
+            JpaUtil.ouvrirTransaction();
+            employeeDAO.insert(employee);
+            JpaUtil.validerTransaction();
+            Logger.getAnonymousLogger().log(Level.FINE, "Success - Employee registration: {0}", employee);
+        } catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Employee registration: " + employee, ex);
+            throw ex;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+    }
+    
     public Employee findEmployeeById(long id) {
         EmployeeDAO employeeDao = new EmployeeDAO();
        
         JpaUtil.creerContextePersistance();
-        Employee employee = employeeDao.getById(id);
+        Employee employee = employeeDao.find(id);
         JpaUtil.fermerContextePersistance();
         
         Logger.getAnonymousLogger().log(Level.INFO, "Success - Get employee by id: " + employee);
@@ -433,7 +451,7 @@ public class Service {
         EmployeeDAO employeeDAO = new EmployeeDAO();
         
         JpaUtil.creerContextePersistance();
-        Employee employee = employeeDAO.getById(idEmployee);
+        Employee employee = employeeDAO.find(idEmployee);
         if (employee == null) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeCurrentConsultation: Employee not found");
             JpaUtil.fermerContextePersistance();
@@ -451,7 +469,7 @@ public class Service {
         EmployeeDAO employeeDao = new EmployeeDAO();
         
         JpaUtil.creerContextePersistance();
-        Employee employee = employeeDao.getById(idEmployee);
+        Employee employee = employeeDao.find(idEmployee);
         if (employee == null) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getEmployeeConsultations: Employee not found");       
             JpaUtil.fermerContextePersistance();
