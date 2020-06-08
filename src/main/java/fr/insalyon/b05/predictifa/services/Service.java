@@ -483,8 +483,12 @@ public class Service {
     // ----------------------------------
     // Statistics services
     // ----------------------------------
-    public Map<Medium, Integer> getNbConsultationsPerMedium() {
-        return null;
+    public Map<Medium, Long> getNbConsultationsPerMedium() {
+        MediumDAO mediumDao = new MediumDAO();
+        JpaUtil.creerContextePersistance();
+        Map<Medium, Long> nbConsultationsPerMedium = mediumDao.getNbConsultationsPerMedium();
+        JpaUtil.fermerContextePersistance();
+        return nbConsultationsPerMedium;
     }
     
     public Map<Employee, Map<Customer, Integer>> getCustomerDistributionPerEmployee() {
