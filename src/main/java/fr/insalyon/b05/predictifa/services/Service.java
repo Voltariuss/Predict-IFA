@@ -383,6 +383,12 @@ public class Service {
             throw new Exception("Consultation not found");
         }
         
+        if (consultation.getStartDate() == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - endConsultation: Consultation not started");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("Consultation not started");
+        }
+        
         if (consultation.getEndDate() != null) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - endConsultation: Consultation already ended");       
             JpaUtil.fermerContextePersistance();

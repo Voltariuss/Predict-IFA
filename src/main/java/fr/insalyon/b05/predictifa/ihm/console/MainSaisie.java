@@ -40,7 +40,7 @@ public class MainSaisie {
     }
     
     private static void registerCustomer(Service service) {
-        Integer title = Saisie.lireInteger("Civilité :\n1 - M.\n2 - Mme.", Arrays.asList(1, 2));
+        Integer title = Saisie.lireInteger("Civilité :\n1 - M.\n2 - Mme.\n", Arrays.asList(1, 2));
         String lastname = Saisie.lireChaine("Nom: ");
         String firstname = Saisie.lireChaine("Prenom: ");
         String postal = Saisie.lireChaine("Adresse Postale : ");
@@ -70,6 +70,7 @@ public class MainSaisie {
     }
     
     private static void showMediums(Service service) {
+        System.out.println("Liste des médiums : ");
         List<Medium> mediums = service.getAllMediums();
         for (Medium medium: mediums) {
             System.out.println(medium);
@@ -113,6 +114,8 @@ public class MainSaisie {
     }
     
     private static void showCustomerConsultations(Service service, Person person) {
+        
+        System.out.println("Liste de mes consultations: ");
         try {
             List<Consultation> consultations = service.getCustomerConsultations(person.getId());
             for (Consultation consultation: consultations) {
@@ -126,6 +129,7 @@ public class MainSaisie {
     
     
     private static void showEmployeeConsultations(Service service, Person person) {
+        System.out.println("Liste de mes consultations: ");
         try {
             List<Consultation> consultations = service.getEmployeeConsultations(person.getId());
             for (Consultation consultation: consultations) {
@@ -150,6 +154,7 @@ public class MainSaisie {
         Integer consultationId = Saisie.lireInteger("Id de la consultation : ");
         try {
             service.startConsultation(consultationId);
+            System.out.println("Début de la consultation");
         } catch (Exception ex) {
             System.out.println("Erreur : " + ex);
         }
@@ -167,6 +172,7 @@ public class MainSaisie {
     
     private static void showCustomerConsultationsById(Service service) {
         Integer customerId = Saisie.lireInteger("Id du client : ");
+        System.out.println("Liste des consultations du client " + customerId);
         try {
             List<Consultation> consultations = service.getCustomerConsultations(customerId);
             for (Consultation consultation: consultations) {
