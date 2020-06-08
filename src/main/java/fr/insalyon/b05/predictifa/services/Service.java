@@ -373,7 +373,7 @@ public class Service {
         
     }
     
-    public void endConsultation(long idConsultation)throws Exception {
+    public void endConsultation(long idConsultation, String commentary)throws Exception {
         ConsultationDAO consultationDao = new ConsultationDAO();
         
         JpaUtil.creerContextePersistance();
@@ -392,6 +392,7 @@ public class Service {
         }
         
         consultation.setEndDate(new Date());
+        consultation.setCommentary(commentary);
         
         try {
             JpaUtil.ouvrirTransaction();
@@ -405,7 +406,6 @@ public class Service {
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-        
     }
     
     public Consultation getCustomerCurrentConsultation(long idCustomer) throws Exception {

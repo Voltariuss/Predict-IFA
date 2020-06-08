@@ -28,9 +28,9 @@ public class Main {
         testFindEmployee(2L);
         testFindEmployeeCurrentConsultation(2L);
         testFindEmployeeConsultations(2L);
-        testInitConsultation(1L, 1L);
-        testStartConsultation();
-        testEndConsultation();
+        testInitConsultation(1L, 2L);
+        testStartConsultation(1L);
+        testEndConsultation(1L, "Ceci est un commentaire");
         
         JpaUtil.destroy();
     }
@@ -46,16 +46,16 @@ public class Main {
         }
     }
     
-    public static void testStartConsultation() throws Exception {
+    public static void testStartConsultation(long id) throws Exception {
         System.out.println("\n==== Test start consultation =====");
         Service service = new Service();
-        service.startConsultation(51);
+        service.startConsultation(id);
     }
     
-    public static void testEndConsultation() throws Exception {
+    public static void testEndConsultation(long id, String commentary) throws Exception {
         System.out.println("\n==== Test end consultation =====");
         Service service = new Service();
-        service.endConsultation(51);
+        service.endConsultation(id, commentary);
     }
     
     
