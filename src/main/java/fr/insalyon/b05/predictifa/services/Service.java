@@ -64,29 +64,7 @@ public class Service {
         ); 
     }
     
-    private void sendNotifConsultationRequest(Consultation consultation, Customer customer, Employee employee, Medium medium) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy à HH:mm");
-        
-        StringWriter mailCustomer = new StringWriter();
-        PrintWriter mailCustomerWriter = new PrintWriter(mailCustomer);
-        
-        mailCustomerWriter.print("Bonjour ");
-        mailCustomerWriter.print(customer.getFirstname());
-        mailCustomerWriter.println(".");
-        mailCustomerWriter.print("J'ai bien reçu votre demande de consultation du ");
-        mailCustomerWriter.print(dateFormat.format(consultation.getRequestDate()));
-        mailCustomerWriter.println(".");
-        mailCustomerWriter.print("Vous pouvez dès à présent me contacter au ");
-        mailCustomerWriter.print(employee.getProPhoneNumber());
-        mailCustomerWriter.println(". À tout de suite !");
-        mailCustomerWriter.print("Médiumiquement vôtre, ");
-        mailCustomerWriter.println(medium.getDenomination());
-        
-        Message.envoyerNotification(
-            customer.getPhoneNumber(), 
-            mailCustomer.toString()
-        );
-        
+    private void sendNotifConsultationRequest(Customer customer, Employee employee, Medium medium) {
         StringWriter mailEmployee = new StringWriter();
         PrintWriter mailEmployeeWriter = new PrintWriter(mailEmployee);
         
@@ -111,6 +89,31 @@ public class Service {
             employee.getProPhoneNumber(), 
             mailEmployee.toString()
         );
+    }
+    
+    private void sendNotifConsultationStart(Consultation consultation, Employee employee, Customer customer, Medium medium) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy à HH:mm");
+        
+        StringWriter mailCustomer = new StringWriter();
+        PrintWriter mailCustomerWriter = new PrintWriter(mailCustomer);
+        
+        mailCustomerWriter.print("Bonjour ");
+        mailCustomerWriter.print(customer.getFirstname());
+        mailCustomerWriter.println(".");
+        mailCustomerWriter.print("J'ai bien reçu votre demande de consultation du ");
+        mailCustomerWriter.print(dateFormat.format(consultation.getRequestDate()));
+        mailCustomerWriter.println(".");
+        mailCustomerWriter.print("Vous pouvez dès à présent me contacter au ");
+        mailCustomerWriter.print(employee.getProPhoneNumber());
+        mailCustomerWriter.println(". À tout de suite !");
+        mailCustomerWriter.print("Médiumiquement vôtre, ");
+        mailCustomerWriter.println(medium.getDenomination());
+        
+        Message.envoyerNotification(
+            customer.getPhoneNumber(), 
+            mailCustomer.toString()
+        );
+        
     }
     
     
@@ -313,8 +316,8 @@ public class Service {
             consultationDao.create(newConsultation);
             JpaUtil.validerTransaction();
             
-            // Envoyer SMS de notification à l'employé et au client
-            sendNotifConsultationRequest(newConsultation, customer, employee, medium);
+            // Envoyer SMS de notification à l'employé 
+            sendNotifConsultationRequest(customer, employee, medium);
             
             Logger.getAnonymousLogger().log(Level.INFO, "Success - initConsultation");
         } catch (Exception ex) {
@@ -352,6 +355,10 @@ public class Service {
             JpaUtil.ouvrirTransaction();
             consultationDao.update(consultation);
             JpaUtil.validerTransaction();
+            
+            // Envoyer SMS de notification au client 
+            sendNotifConsultationStart(consultation, consultation.getEmployee(), consultation.getCustomer(), consultation.getMedium());
+            
             Logger.getAnonymousLogger().log(Level.INFO, "Success - startConsultation");
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.SEVERE, "Error - startConsultation: error update", ex);
