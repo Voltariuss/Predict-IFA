@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.b05.predictifa.services;
 
 import fr.insalyon.b05.predictifa.util.AstroNet;
@@ -27,16 +22,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author aleryc
- */
 public class Service {
     
     // ----------------------------------
     // Message services
     // ----------------------------------
-    
     private static final String CONTACT_MAIL = "contact@predict.ifa";
    
     private void sendNotifRegistrationSuccess(Customer customer) {
@@ -141,7 +131,6 @@ public class Service {
     // ----------------------------------
     // Customer services
     // ----------------------------------
-    
     public void registerCustomer(Customer customer) throws Exception {
         // TODO : use AstroNet to fetch profile
         
