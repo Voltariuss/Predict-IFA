@@ -1,10 +1,13 @@
 package fr.insalyon.b05.predictifa.dao;
 
 import fr.insalyon.b05.predictifa.models.medium.Medium;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Query;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class MediumDAO {
     
@@ -34,7 +37,7 @@ public class MediumDAO {
         String queryStr = "SELECT m, COUNT(c)\n"
                 + "FROM Medium m\n"
                 + "LEFT JOIN m.consultations c\n"
-                + "GROUP BY m\n";
+                + "GROUP BY m";
         Query query = JpaUtil.obtenirContextePersistance().createQuery(queryStr);
         List<Object[]> resultList = query.getResultList();
         Map<Medium, Long> nbConsultationsPerMedium = new HashMap<>();
@@ -44,5 +47,23 @@ public class MediumDAO {
             nbConsultationsPerMedium.put(medium, nbConsultations);
         }
         return nbConsultationsPerMedium;
+    }
+    
+    public List<Pair<Medium, Long>> getTopMediums(int nbMediums) {
+        String queryStr = "SELECT m, COUNT(c)\n"
+                + "FROM Medium m\n"
+                + "LEFT JOIN m.consultations c\n"
+                + "GROUP BY m\n"
+                + "ORDER BY COUNT(c) DESC";
+        Query query = JpaUtil.obtenirContextePersistance().createQuery(queryStr);
+        List<Object[]> resultList = query.setMaxResults(nbMediums).getResultList();
+        List<Pair<Medium, Long>> topMediums = new ArrayList<>(nbMediums);
+        for (Object[] objects : resultList) {
+            Medium medium = (Medium) objects[0];
+            long nbConsultations = (long) objects[1];
+            Pair<Medium, Long> pair = new ImmutablePair<>(medium, nbConsultations);
+            topMediums.add(pair);
+        }
+        return topMediums;
     }
 }

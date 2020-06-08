@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class Service {
     
@@ -495,7 +496,11 @@ public class Service {
         return null;
     }
     
-    public List<Map.Entry<Medium, Integer>> getTopMediums(int nbMediums) {
-        return null;
+    public List<Pair<Medium, Long>> getTopMediums(int nbMediums) {
+        MediumDAO mediumDao = new MediumDAO();
+        JpaUtil.creerContextePersistance();
+        List<Pair<Medium, Long>> topMediums = mediumDao.getTopMediums(nbMediums);
+        JpaUtil.fermerContextePersistance();
+        return topMediums;
     }
 }

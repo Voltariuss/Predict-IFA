@@ -14,9 +14,10 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         JpaUtil.init();
         
         // Registration
@@ -43,7 +44,9 @@ public class Main {
         testFindEmployeeCurrentConsultation(2L);
         testFindEmployeeConsultations(2L);
         
+        // Tests statistics
         testGetNbConsultationsPerMedium();
+        testGetTopMediums(2);
         
         JpaUtil.destroy();
     }
@@ -82,8 +85,12 @@ public class Main {
     public static void testFindCustomer(long id) {
         System.out.println("\n==== Test find customer =====");
         Service service = new Service();
-        Customer c = service.findCustomerById(id);
-        System.out.println(c.getId() + ": " + c.getFirstname() + " " + c.getLastname());
+        Customer customer = service.findCustomerById(id);
+        if (customer != null) {
+            System.out.println("Client trouvé : " + customer);
+        } else {
+            System.out.println("Client introuvable");
+        }
     }
     
     // ----------------------------------
@@ -114,8 +121,12 @@ public class Main {
     public static void testFindEmployee(long id) {
         System.out.println("\n==== Test find employee =====");
         Service service = new Service();
-        Employee e = service.findEmployeeById(id);
-        System.out.println(e.getId() + ": " + e.getFirstname() + " " + e.getLastname());
+        Employee employee = service.findEmployeeById(id);
+        if (employee != null) {
+            System.out.println("Employé trouvé : " + employee);
+        } else {
+            System.out.println("Employé introuvable");
+        }
     }
     
     // ----------------------------------
@@ -124,7 +135,7 @@ public class Main {
     public static void testRegistrationMedium() {
         System.out.println("\n==== Test registration medium =====");
         Service service = new Service();
-        System.out.println("Registration of a fortune teller...");
+        System.out.println("Enregistrement du cartomancien...");
         FortuneTeller fortuneTeller = new FortuneTeller(
                 "Serena",
                 Gender.F,
@@ -136,7 +147,7 @@ public class Main {
         } catch (Exception ex) {
             System.out.println("Échec de l'enregistrement du cartomancien : " + fortuneTeller);
         }
-        System.out.println("Registration of a spiritualist...");
+        System.out.println("Enregistrement du spirituel...");
         Spiritualist spiritualist = new Spiritualist(
                 "Spiritualist",
                 Gender.M,
@@ -149,7 +160,7 @@ public class Main {
         } catch (Exception ex) {
             System.out.println("Échec de l'enregistrement du spirituel : " + spiritualist);
         }
-        System.out.println("Registration of a astrologer...");
+        System.out.println("Enregistrement de l'astrologue...");
         Astrologer astrologer = new Astrologer(
                 "Astrologer",
                 Gender.F,
@@ -190,7 +201,7 @@ public class Main {
     // ----------------------------------
     // Consultation services : Tests
     // ----------------------------------
-    public static void testInitConsultation(long idCustomer, long idMedium) throws Exception {
+    public static void testInitConsultation(long idCustomer, long idMedium) {
         System.out.println("\n==== Test init consultation =====");
         Service service = new Service();
         try {
@@ -201,55 +212,85 @@ public class Main {
         }
     }
     
-    public static void testStartConsultation(long id) throws Exception {
+    public static void testStartConsultation(long id) {
         System.out.println("\n==== Test start consultation =====");
         Service service = new Service();
-        service.startConsultation(id);
+        try {
+            service.startConsultation(id);
+            System.out.println("Début de la consultation d'ID : " + id);
+        } catch (Exception ex) {
+            System.out.println("Impossible de débuter la consultation d'ID : " + id);
+        }
     }
     
-    public static void testEndConsultation(long id, String commentary) throws Exception {
+    public static void testEndConsultation(long id, String commentary) {
         System.out.println("\n==== Test end consultation =====");
         Service service = new Service();
-        service.endConsultation(id, commentary);
+        try {
+            service.endConsultation(id, commentary);
+            System.out.println("Fin de la consultation d'ID : " + id);
+        } catch (Exception ex) {
+            System.out.println("Impossible de mettre fin à la consultation d'ID : " + id);
+        }
     }
     
-    public static void testFindCustomerCurrentConsultation(long id) throws Exception {
+    public static void testFindCustomerCurrentConsultation(long idCustomer) {
         System.out.println("\n==== Test find customer current consultation =====");
         Service service = new Service();
-        Consultation consultation = service.getCustomerCurrentConsultation(id);
-        System.out.println(consultation); 
+        try {
+            Consultation consultation = service.getCustomerCurrentConsultation(idCustomer);
+            if (consultation != null) {
+                System.out.println("Consultation courante du client d'ID " + idCustomer + " : " + consultation);
+            } else {
+                System.out.println("Aucune consultation courante pour le client d'ID " + idCustomer);
+            }
+        } catch (Exception ex) {
+            System.out.println("Le client est introuvable");
+        }
     }
     
-    public static void testFindEmployeeCurrentConsultation(long id) throws Exception {
+    public static void testFindEmployeeCurrentConsultation(long idEmployee) {
         System.out.println("\n==== Test find employee current consultation =====");
         Service service = new Service();
-        Consultation consultation = service.getEmployeeCurrentConsultation(id);
-        if (consultation != null) {
-            System.out.println("Consultation courante trouvée : " + consultation);
-        } else {
-            System.out.println("Pas de consultation courante");
+        try {
+            Consultation consultation = service.getEmployeeCurrentConsultation(idEmployee);
+            if (consultation != null) {
+                System.out.println("Consultation courante de l'employé d'ID " + idEmployee + " : " + consultation);
+            } else {
+                System.out.println("Aucune consultation courante pour l'employé d'ID " + idEmployee);
+            }
+        } catch (Exception ex) {
+            System.out.println("L'employé est introuvable");
         }
     }
     
-    public static void testFindCustomerConsultations(long id) throws Exception {
+    public static void testFindCustomerConsultations(long idCustomer) {
         System.out.println("\n==== Test find customer consultations =====");
         Service service = new Service();
-        List<Consultation> consultations = service.getCustomerConsultations(id);
-        if (!consultations.isEmpty()) {
-            System.out.println("Consultations trouvées : " + consultations);
-        } else {
-            System.out.println("Aucune consultation trouvée");
+        try {
+            List<Consultation> consultations = service.getCustomerConsultations(idCustomer);
+            if (!consultations.isEmpty()) {
+                System.out.println("Consultations trouvées pour le client d'ID " + idCustomer + " : " + consultations);
+            } else {
+                System.out.println("Aucune consultation trouvée pour le client d'ID " + idCustomer);
+            }
+        } catch (Exception ex) {
+            System.out.println("Le client est introuvable");
         }
     }
     
-    public static void testFindEmployeeConsultations(long id) throws Exception {
+    public static void testFindEmployeeConsultations(long idEmployee) {
         System.out.println("\n==== Test find employee consultations =====");
         Service service = new Service();
-        List<Consultation> consultations = service.getEmployeeConsultations(id);
-        if (!consultations.isEmpty()) {
-            System.out.println("Consultations trouvées : " + consultations);
-        } else {
-            System.out.println("Aucune consultation trouvée");
+        try {
+            List<Consultation> consultations = service.getEmployeeConsultations(idEmployee);
+            if (!consultations.isEmpty()) {
+                System.out.println("Consultations trouvées pour l'employé d'ID " + idEmployee + " : " + consultations);
+            } else {
+                System.out.println("Aucune consultation trouvée");
+            }
+        } catch (Exception ex) {
+            System.out.println("L'employé est introuvable");
         }
     }
     
@@ -267,7 +308,10 @@ public class Main {
         // TODO
     }
     
-    public static void testGetTopMediums() {
-        // TODO
+    public static void testGetTopMediums(int nbMediums) {
+        System.out.println("\n==== Test get top mediums =====");
+        Service service = new Service();
+        List<Pair<Medium, Long>> topMediums = service.getTopMediums(nbMediums);
+        System.out.println("Top des médiums : " + topMediums);
     }
 }
