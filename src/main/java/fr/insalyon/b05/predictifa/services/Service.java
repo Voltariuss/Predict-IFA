@@ -315,6 +315,9 @@ public class Service {
         try {
             JpaUtil.ouvrirTransaction();
             consultationDao.create(newConsultation);
+            employeeDao.update(employee);
+            customerDao.update(customer);
+            mediumDao.update(medium);
             JpaUtil.validerTransaction();
             
             // Envoyer SMS de notification à l'employé 
@@ -410,6 +413,37 @@ public class Service {
         } finally {
             JpaUtil.fermerContextePersistance();
         }
+    }
+    
+    
+    public List<String> getPrediction(long idCustomer, int amour, int sante, int travail) throws Exception {
+        AstroNet astro = new AstroNet();
+        CustomerDAO customerDao = new CustomerDAO();
+                
+        JpaUtil.creerContextePersistance();
+        Customer customer = customerDao.getById(idCustomer);
+        if (customer == null) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - getPrediction: Customer not found");       
+            JpaUtil.fermerContextePersistance();
+            throw new Exception("Customer not found");
+        }
+        
+        try {
+            return astro.getPredictions(
+                customer.getLuckyColor(),
+                customer.getTotem(),
+                amour,
+                sante, 
+                travail
+            );
+           
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.SEVERE, "Error - Astro Get Prédictions: " + customer, ex);
+            throw new Exception("Failed Astro Get Predictions");
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        
     }
     
     public Consultation getCustomerCurrentConsultation(long idCustomer) throws Exception {

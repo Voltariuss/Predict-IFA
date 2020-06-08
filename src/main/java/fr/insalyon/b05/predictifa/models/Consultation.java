@@ -51,9 +51,9 @@ public class Consultation implements Serializable {
     
     public Consultation(Employee employee, Customer customer, Medium medium) {
         this.requestDate = new Date();
-        this.employee = employee;
-        this.customer = customer;
-        this.medium = medium;
+        this.setEmployee(employee);
+        this.setCustomer(customer);
+        this.setMedium(medium);
     }
     
     public Long getId() {
@@ -97,7 +97,13 @@ public class Consultation implements Serializable {
     }
 
     public void setEmployee(Employee employee) {
+        if (this.employee != null) {
+            this.employee.removeConsultation(this);
+        }
         this.employee = employee;
+        if (this.employee != null) {
+            this.employee.addConsultation(this);
+        }
     }
 
     public Customer getCustomer() {
@@ -105,7 +111,13 @@ public class Consultation implements Serializable {
     }
 
     public void setCustomer(Customer customer) {
+        if (this.customer != null) {
+            this.customer.removeConsultation(this);
+        }
         this.customer = customer;
+        if (this.customer != null) {
+            this.customer.addConsultation(this);
+        }
     }
 
     public Medium getMedium() {
@@ -113,7 +125,14 @@ public class Consultation implements Serializable {
     }
 
     public void setMedium(Medium medium) {
+        if (this.medium != null) {
+            this.medium.removeConsultation(this);
+        }
         this.medium = medium;
+        if (this.medium != null) {
+            this.medium.addConsultation(this);
+        }
+        
     }
     
     @Override

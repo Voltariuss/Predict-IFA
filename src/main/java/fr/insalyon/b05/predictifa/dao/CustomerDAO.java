@@ -19,4 +19,8 @@ public class CustomerDAO {
     public Customer getById(long id) {
         return JpaUtil.obtenirContextePersistance().find(Customer.class, id);
     }
+
+    public void update(Customer customer) {
+        JpaUtil.obtenirContextePersistance().merge(customer);
+    }
 }

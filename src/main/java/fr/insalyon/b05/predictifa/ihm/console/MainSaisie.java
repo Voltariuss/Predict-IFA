@@ -62,7 +62,7 @@ public class MainSaisie {
         
         try {
             service.registerCustomer(new Customer(
-                mail, password, firstname, lastname, postal, birthDate, firstname, gender));
+                mail, password, firstname, lastname, postal, birthDate, telephone, gender));
             System.out.println("Client enregistré");
         } catch (Exception ex) {
             System.out.println("Erreur : " + ex.getMessage());
@@ -183,6 +183,24 @@ public class MainSaisie {
         }
     }
     
+    private static void getPredictions(Service service) {
+        Integer customerId = Saisie.lireInteger("Id du client : ");
+        Integer amour = Saisie.lireInteger("Amour : ", Arrays.asList(1, 2, 3, 4, 5));
+        Integer sante = Saisie.lireInteger("Sante : ", Arrays.asList(1, 2, 3, 4, 5));
+        Integer travail = Saisie.lireInteger("Travail : ", Arrays.asList(1, 2, 3, 4, 5));
+        
+        try {
+            List<String> notes = service.getPrediction(customerId, amour, sante, travail); 
+            System.out.println("Amour:\n" + notes.get(0));
+            System.out.println("Sante:\n" + notes.get(1));
+            System.out.println("Travail:\n" + notes.get(2));
+        } catch (Exception ex) {
+            System.out.println("Erreur : " + ex);
+        }
+        
+        
+    }
+    
     
     public static void main(String[] args) throws Exception {
         Person person = null;
@@ -190,6 +208,8 @@ public class MainSaisie {
         boolean quit = false;
         
         JpaUtil.init();
+                
+        testRegistrationCustomer();
         testRegistrationEmployee();
         testRegistrationMedium();
         
@@ -269,9 +289,10 @@ public class MainSaisie {
                     System.out.println("7 - Terminer consultation courrante");
                     System.out.println("8 - Historique de mes consultations");
                     System.out.println("9 - Historique des consultations d'un client");
+                    System.out.println("10 - Obtenir une prédiction");
                     System.out.println("0 - Quitter");
                     
-                    int saisie = Saisie.lireInteger("Votre choix: ", Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+                    int saisie = Saisie.lireInteger("Votre choix: ", Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
                     switch (saisie) {
                         case 1:
                             person = null;
@@ -300,6 +321,8 @@ public class MainSaisie {
                         case 9:
                             showCustomerConsultationsById(service);
                             break;
+                        case 10:
+                            getPredictions(service);
                         case 0:
                             quit = true;
                             break;
@@ -311,15 +334,36 @@ public class MainSaisie {
         
     }
     
+    public static void testRegistrationCustomer() {
+        System.out.println("\n==== Test registration customer =====");
+        Service service = new Service();
+        Customer customer = new Customer(
+            "alerycserrania@gmail.com", 
+            "toto", 
+            "Aleryc", 
+            "Serrania", 
+            "11 rue des élites 69100 Villeurbanne", 
+            new GregorianCalendar(1997, Calendar.FEBRUARY, 11).getTime(), 
+            "0712486521", 
+            Gender.M
+        );
+        try {
+            service.registerCustomer(customer);
+            System.out.println("Succès de l'enregistrement du client : " + customer);
+        } catch (Exception ex) {
+            System.out.println("Échec de l'enregistrement du client : " + customer);
+        }
+    }
+    
     public static void testRegistrationEmployee() {
         System.out.println("\n==== Test registration employee =====");
         Service service = new Service();
         Employee employee = new Employee(
                 "0685735498",
-                "employee@mail.com",
+                "jean.pascal@mail.com",
                 "passwordEmployee",
-                "First name employee",
-                "Last name employee",
+                "Jean",
+                "Pascal",
                 "Postal address employee",
                 new GregorianCalendar(1999, Calendar.FEBRUARY, 26).getTime(),
                 "0698547896",
