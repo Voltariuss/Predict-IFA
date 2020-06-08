@@ -34,7 +34,7 @@ import java.util.logging.Logger;
 public class Service {
     
     // ----------------------------------
-    // Message service
+    // Message services
     // ----------------------------------
     
     private static final String CONTACT_MAIL = "contact@predict.ifa";
@@ -124,7 +124,7 @@ public class Service {
     
     
     // ----------------------------------
-    // User service
+    // User services
     // ----------------------------------
     public Person authenticate(String login, String password) {
         PersonDAO personDao = new PersonDAO();
@@ -139,7 +139,7 @@ public class Service {
     }
     
     // ----------------------------------
-    // Customer service
+    // Customer services
     // ----------------------------------
     
     public void registerCustomer(Customer customer) throws Exception {
@@ -197,7 +197,7 @@ public class Service {
     }
 
     // ----------------------------------
-    // Employee service
+    // Employee services
     // ----------------------------------
     public void registerEmployee(Employee employee) throws Exception {
         EmployeeDAO employeeDAO = new EmployeeDAO();
@@ -230,7 +230,7 @@ public class Service {
     }
     
     // ----------------------------------
-    // Medium service
+    // Medium services
     // ----------------------------------
     public void registerMedium(Medium medium) throws Exception {
         MediumDAO mediumDao = new MediumDAO();
@@ -275,7 +275,7 @@ public class Service {
     }
     
     // ----------------------------------
-    // Consultation service
+    // Consultation services
     // ----------------------------------
     public Consultation initConsultation(long idCustomer, long idMedium) throws Exception {
         CustomerDAO customerDao = new CustomerDAO();
