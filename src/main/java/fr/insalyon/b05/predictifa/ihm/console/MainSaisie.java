@@ -40,7 +40,7 @@ public class MainSaisie {
     }
     
     private static void registerCustomer(Service service) {
-        Integer title = Saisie.lireInteger("Civilité :\n1 - M.\n2 - Mme.", Arrays.asList(1, 2));
+        Integer title = Saisie.lireInteger("Civilité :\n1 - M.\n2 - Mme.\n", Arrays.asList(1, 2));
         String lastname = Saisie.lireChaine("Nom: ");
         String firstname = Saisie.lireChaine("Prenom: ");
         String postal = Saisie.lireChaine("Adresse Postale : ");
@@ -150,6 +150,7 @@ public class MainSaisie {
         Integer consultationId = Saisie.lireInteger("Id de la consultation : ");
         try {
             service.startConsultation(consultationId);
+            System.out.println("Début de la consultation");
         } catch (Exception ex) {
             System.out.println("Erreur : " + ex);
         }
