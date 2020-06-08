@@ -2,33 +2,37 @@ package fr.insalyon.b05.predictifa.models.medium;
 
 import fr.insalyon.b05.predictifa.models.Gender;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Medium implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
     
     @Column(nullable = false)
-    private String denomination;
+    protected String denomination;
     
     @Column(nullable = false)
-    private Gender gender;
+    protected Gender gender;
     
     @Column(nullable = false)
-    private String presentation;
+    protected String presentation;
     
-    public Medium() {}
+    protected Medium() {}
     
-    public Medium(String denomination, Gender gender, String presentation) {
+    protected Medium(String denomination, Gender gender, String presentation) {
         this.denomination = denomination;
         this.gender = gender;
         this.presentation = presentation;
@@ -66,16 +70,34 @@ public class Medium implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
+        hash += (denomination != null ? denomination.hashCode() : 0);
+        hash += (gender != null ? gender.hashCode() : 0);
+        hash += (presentation != null ? presentation.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Medium)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Medium other = (Medium) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (this.getClass() != obj.getClass()) {
+            return false;
+        }
+        final Medium other = (Medium) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.denomination, other.denomination)) {
+            return false;
+        }
+        if (!Objects.equals(this.gender, other.gender)) {
+            return false;
+        }
+        if (!Objects.equals(this.presentation, other.presentation)) {
             return false;
         }
         return true;
@@ -83,9 +105,11 @@ public class Medium implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.b05.predictifa.models.Medium[id=" + this.id
+        return "fr.insalyon.b05.predictifa.models.medium.Medium["
+                + "id=" + this.id
                 + ", denomination=" + this.denomination
                 + ", gender=" + this.gender
-                + ", presentation=" + this.presentation + "]";
+                + ", presentation=" + this.presentation
+                + "]";
     }
 }

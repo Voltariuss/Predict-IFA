@@ -6,6 +6,9 @@
     <class>fr.insalyon.b05.predictifa.models.Customer</class>
     <class>fr.insalyon.b05.predictifa.models.Employee</class>
     <class>fr.insalyon.b05.predictifa.models.Consultation</class>
+    <class>fr.insalyon.b05.predictifa.models.medium.Astrologer</class>
+    <class>fr.insalyon.b05.predictifa.models.medium.Spiritualist</class>
+    <class>fr.insalyon.b05.predictifa.models.medium.FortuneTeller</class>
     <class>fr.insalyon.b05.predictifa.models.medium.Medium</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
