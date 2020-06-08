@@ -47,16 +47,16 @@ public class FortuneTeller extends Medium implements Serializable {
         if (!Objects.equals(this.presentation, other.presentation)) {
             return false;
         }
+        if (!Objects.equals(this.consultations, other.consultations)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
         return "fr.insalyon.b05.predictifa.models.medium.FortuneTeller["
-                + "id=" + this.id
-                + ", denomination=" + this.denomination
-                + ", gender=" + this.gender
-                + ", presentation=" + this.presentation
+                + "Medium=" + super.toString()
                 + "]";
     }
 }

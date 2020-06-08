@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.b05.predictifa.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,10 +15,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- *
- * @author aleryc
- */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Person implements Serializable {
@@ -30,34 +22,34 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
     
     @Column(nullable = false, unique = true)
-    private String mail;
+    protected String mail;
     
     @Column(nullable = false)
-    private String password;
+    protected String password;
     
     @Column(nullable = false)
-    private String firstname;
+    protected String firstname;
     
     @Column(nullable = false)
-    private String lastname;
+    protected String lastname;
     
     @Column(nullable = false)
-    private String postalAddress;
+    protected String postalAddress;
     
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
-    private Date birthDate;
+    protected Date birthDate;
     
     @Column(nullable = false)
-    private String phoneNumber;
+    protected String phoneNumber;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Gender gender;
+    protected Gender gender;
     
     protected Person() {}
     
@@ -71,16 +63,9 @@ public class Person implements Serializable {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
     }
-
-    
-    
     
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getMail() {
@@ -147,23 +132,58 @@ public class Person implements Serializable {
         this.gender = gender;
     }
     
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (this.id != null ? this.id.hashCode() : 0);
+        hash += (this.mail != null ? this.mail.hashCode() : 0);
+        hash += (this.password != null ? this.password.hashCode() : 0);
+        hash += (this.firstname != null ? this.firstname.hashCode() : 0);
+        hash += (this.lastname != null ? this.lastname.hashCode() : 0);
+        hash += (this.postalAddress != null ? this.postalAddress.hashCode() : 0);
+        hash += (this.birthDate != null ? this.birthDate.hashCode() : 0);
+        hash += (this.phoneNumber != null ? this.phoneNumber.hashCode() : 0);
+        hash += (this.gender != null ? this.gender.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Person)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Person other = (Person) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Person other = (Person) obj;
+        if (!Objects.equals(this.mail, other.mail)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.firstname, other.firstname)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastname, other.lastname)) {
+            return false;
+        }
+        if (!Objects.equals(this.postalAddress, other.postalAddress)) {
+            return false;
+        }
+        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.birthDate, other.birthDate)) {
+            return false;
+        }
+        if (this.gender != other.gender) {
             return false;
         }
         return true;
@@ -171,7 +191,17 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.b05.predictifa.models.Person[ id=" + id + " ]";
+        return "fr.insalyon.b05.predictifa.models.Person["
+                + "id=" + this.id
+                + ", mail=\"" + this.mail + "\""
+                + ", password=\"" + this.password + "\""
+                + ", firstname=\"" + this.firstname + "\""
+                + ", lastname=\"" + this.lastname + "\""
+                + ", postalAddress=\"" + this.postalAddress + "\""
+                + ", birthDate=\"" + this.birthDate + "\""
+                + ", phoneNumber=\"" + this.phoneNumber + "\""
+                + ", gender=\"" + this.gender + "\""
+                + "]";
     }
     
 }

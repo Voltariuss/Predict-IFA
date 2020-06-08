@@ -1,15 +1,20 @@
 package fr.insalyon.b05.predictifa.models.medium;
 
+import fr.insalyon.b05.predictifa.models.Consultation;
 import fr.insalyon.b05.predictifa.models.Gender;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -24,11 +29,15 @@ public class Medium implements Serializable {
     @Column(nullable = false)
     protected String denomination;
     
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     protected Gender gender;
     
     @Column(nullable = false)
     protected String presentation;
+    
+    @OneToMany(mappedBy = "medium")
+    protected List<Consultation> consultations;
     
     protected Medium() {}
     
@@ -65,6 +74,20 @@ public class Medium implements Serializable {
     public void setPresentation(String presentation) {
         this.presentation = presentation;
     }
+    
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+    
+    public void addConsultation(Consultation consultation) {
+        this.consultations.add(consultation);
+        consultation.setMedium(this);
+    }
+    
+    public void removeConsultation(Consultation consultation) {
+        this.consultations.remove(consultation);
+        consultation.setMedium(null);
+    }
 
     @Override
     public int hashCode() {
@@ -73,6 +96,7 @@ public class Medium implements Serializable {
         hash += (denomination != null ? denomination.hashCode() : 0);
         hash += (gender != null ? gender.hashCode() : 0);
         hash += (presentation != null ? presentation.hashCode() : 0);
+        hash += (consultations != null ? consultations.hashCode() : 0);
         return hash;
     }
 
@@ -100,6 +124,9 @@ public class Medium implements Serializable {
         if (!Objects.equals(this.presentation, other.presentation)) {
             return false;
         }
+        if (!Objects.equals(this.consultations, other.consultations)) {
+            return false;
+        }
         return true;
     }
 
@@ -107,9 +134,10 @@ public class Medium implements Serializable {
     public String toString() {
         return "fr.insalyon.b05.predictifa.models.medium.Medium["
                 + "id=" + this.id
-                + ", denomination=" + this.denomination
-                + ", gender=" + this.gender
-                + ", presentation=" + this.presentation
+                + ", denomination=\"" + this.denomination + "\""
+                + ", gender=\"" + this.gender + "\""
+                + ", presentation=\"" + this.presentation + "\""
+                + ", consultations=" + this.consultations
                 + "]";
     }
 }

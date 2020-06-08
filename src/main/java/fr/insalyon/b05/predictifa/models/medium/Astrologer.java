@@ -75,6 +75,9 @@ public class Astrologer extends Medium implements Serializable {
         if (!Objects.equals(this.presentation, other.presentation)) {
             return false;
         }
+        if (!Objects.equals(this.consultations, other.consultations)) {
+            return false;
+        }
         if (!Objects.equals(this.formation, other.formation)) {
             return false;
         }
@@ -87,12 +90,9 @@ public class Astrologer extends Medium implements Serializable {
     @Override
     public String toString() {
         return "fr.insalyon.b05.predictifa.models.medium.Astrologer["
-                + "id=" + this.id
-                + ", denomination=" + this.denomination
-                + ", gender=" + this.gender
-                + ", presentation=" + this.presentation
-                + ", formation=" + this.formation
-                + ", promotion=" + this.promotion
+                + "Medium=" + super.toString()
+                + ", formation=\"" + this.formation + "\""
+                + ", promotion=\"" + this.promotion + "\""
                 + "]";
     }
 }

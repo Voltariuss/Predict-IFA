@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.b05.predictifa.models;
 
 import fr.insalyon.b05.predictifa.models.medium.Medium;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,10 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- *
- * @author aleryc
- */
 @Entity
 public class Consultation implements Serializable {
 
@@ -64,13 +56,8 @@ public class Consultation implements Serializable {
         this.medium = medium;
     }
     
-    
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Date getRequestDate() {
@@ -132,18 +119,51 @@ public class Consultation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (this.id != null ? this.id.hashCode() : 0);
+        hash += (this.requestDate != null ? this.requestDate.hashCode() : 0);
+        hash += (this.startDate != null ? this.startDate.hashCode() : 0);
+        hash += (this.endDate != null ? this.endDate.hashCode() : 0);
+        hash += (this.commentary != null ? this.commentary.hashCode() : 0);
+        hash += (this.employee != null ? this.employee.hashCode() : 0);
+        hash += (this.customer != null ? this.customer.hashCode() : 0);
+        hash += (this.medium != null ? this.medium.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Consultation)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Consultation other = (Consultation) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Consultation other = (Consultation) obj;
+        if (!Objects.equals(this.commentary, other.commentary)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.requestDate, other.requestDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.startDate, other.startDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.endDate, other.endDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.employee, other.employee)) {
+            return false;
+        }
+        if (!Objects.equals(this.customer, other.customer)) {
+            return false;
+        }
+        if (!Objects.equals(this.medium, other.medium)) {
             return false;
         }
         return true;
@@ -151,7 +171,15 @@ public class Consultation implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.insalyon.b05.predictifa.models.Consultation[ id=" + id + " ]";
-    }
-    
+        return "fr.insalyon.b05.predictifa.models.Consultation["
+                + "id=" + this.id
+                + ", requestDate=\"" + this.requestDate + "\""
+                + ", startDate=\"" + this.startDate + "\""
+                + ", endDate=\"" + this.endDate + "\""
+                + ", commentary=\"" + this.commentary + "\""
+                + ", employee=" + this.employee
+                + ", customer=" + this.customer
+                + ", medium=" + this.medium
+                + "]";
+    } 
 }

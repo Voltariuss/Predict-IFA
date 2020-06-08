@@ -1,26 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.b05.predictifa.models;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-/**
- *
- * @author aleryc
- */
 @Entity
 @DiscriminatorValue("E")
 public class Employee extends Person {
@@ -32,8 +19,6 @@ public class Employee extends Person {
     
     @OneToMany(mappedBy = "employee")
     private List<Consultation> consultations;
-
-    
     
     protected Employee() {}
 
@@ -66,19 +51,55 @@ public class Employee extends Person {
     
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (this.getId() != null ? this.getId().hashCode() : 0);
+        int hash = super.hashCode();
+        hash += (this.proPhoneNumber != null ? this.proPhoneNumber.hashCode() : 0);
+        hash += (this.consultations != null ? this.consultations.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Employee)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Employee other = (Employee) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.getId().equals(other.getId()))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Employee other = (Employee) obj;
+        if (!Objects.equals(this.mail, other.mail)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.firstname, other.firstname)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastname, other.lastname)) {
+            return false;
+        }
+        if (!Objects.equals(this.postalAddress, other.postalAddress)) {
+            return false;
+        }
+        if (!Objects.equals(this.phoneNumber, other.phoneNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.birthDate, other.birthDate)) {
+            return false;
+        }
+        if (this.gender != other.gender) {
+            return false;
+        }
+        if (!Objects.equals(this.proPhoneNumber, other.proPhoneNumber)) {
+            return false;
+        }
+        if (!Objects.equals(this.consultations, other.consultations)) {
             return false;
         }
         return true;
@@ -86,7 +107,10 @@ public class Employee extends Person {
 
     @Override
     public String toString() {
-        return "fr.insalyon.b05.predictifa.models.Employee[ id=" + this.getId() + " ]";
+        return "fr.insalyon.b05.predictifa.models.Employee["
+                + "Person=" + super.toString()
+                + ", proPhoneNumber=\"" + this.proPhoneNumber + "\""
+                + ", consultations=" + this.consultations
+                + "]";
     }
-    
 }
