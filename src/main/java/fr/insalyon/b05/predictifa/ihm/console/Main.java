@@ -45,10 +45,20 @@ public class Main {
         JpaUtil.destroy();
     }
     
-    public static void testRegistrationCustomer() throws Exception {
+    // ----------------------------------
+    // User services : Tests
+    // ----------------------------------
+    public static void testAuthentificate() {
+        // TODO
+    }
+    
+    // ----------------------------------
+    // Customer services : Tests
+    // ----------------------------------
+    public static void testRegistrationCustomer() {
         System.out.println("\n==== Test registration customer =====");
         Service service = new Service();
-        Customer newClient = new Customer(
+        Customer customer = new Customer(
             "alerycserrania@gmail.com", 
             "toto", 
             "Aleryc", 
@@ -58,11 +68,25 @@ public class Main {
             "0712486521", 
             Gender.M
         );
-        
-        service.registerCustomer(newClient);
+        try {
+            service.registerCustomer(customer);
+            System.out.println("Succès de l'enregistrement du client : " + customer);
+        } catch (Exception ex) {
+            System.out.println("Échec de l'enregistrement du client : " + customer);
+        }
     }
     
-    public static void testRegistrationEmployee() throws Exception {
+    public static void testFindCustomer(long id) {
+        System.out.println("\n==== Test find customer =====");
+        Service service = new Service();
+        Customer c = service.findCustomerById(id);
+        System.out.println(c.getId() + ": " + c.getFirstname() + " " + c.getLastname());
+    }
+    
+    // ----------------------------------
+    // Employee services : Tests
+    // ----------------------------------
+    public static void testRegistrationEmployee() {
         System.out.println("\n==== Test registration employee =====");
         Service service = new Service();
         Employee employee = new Employee(
@@ -76,10 +100,25 @@ public class Main {
                 "0698547896",
                 Gender.M
         );
-        service.registerEmployee(employee);
+        try {
+            service.registerEmployee(employee);
+            System.out.println("Succès de l'enregistrement de l'employé : " + employee);
+        } catch (Exception ex) {
+            System.out.println("Échec de l'enregistrement de l'employé : " + employee);
+        }
     }
     
-    public static void testRegistrationMedium() throws Exception {
+    public static void testFindEmployee(long id) {
+        System.out.println("\n==== Test find employee =====");
+        Service service = new Service();
+        Employee e = service.findEmployeeById(id);
+        System.out.println(e.getId() + ": " + e.getFirstname() + " " + e.getLastname());
+    }
+    
+    // ----------------------------------
+    // Medium services : Tests
+    // ----------------------------------
+    public static void testRegistrationMedium() {
         System.out.println("\n==== Test registration medium =====");
         Service service = new Service();
         System.out.println("Registration of a fortune teller...");
@@ -88,7 +127,12 @@ public class Main {
                 Gender.F,
                 "Je suis Serena"
         );
-        service.registerMedium(fortuneTeller);
+        try {
+            service.registerMedium(fortuneTeller);
+            System.out.println("Succès de l'enregistrement du cartomancien : " + fortuneTeller);
+        } catch (Exception ex) {
+            System.out.println("Échec de l'enregistrement du cartomancien : " + fortuneTeller);
+        }
         System.out.println("Registration of a spiritualist...");
         Spiritualist spiritualist = new Spiritualist(
                 "Spiritualist",
@@ -96,7 +140,12 @@ public class Main {
                 "La présentation du spirituel",
                 "boule de crystal"
         );
-        service.registerMedium(spiritualist);
+        try {
+            service.registerMedium(spiritualist);
+            System.out.println("Succès de l'enregistrement du spirituel : " + spiritualist);
+        } catch (Exception ex) {
+            System.out.println("Échec de l'enregistrement du spirituel : " + spiritualist);
+        }
         System.out.println("Registration of a astrologer...");
         Astrologer astrologer = new Astrologer(
                 "Astrologer",
@@ -105,21 +154,12 @@ public class Main {
                 "La formation",
                 "La promotion"
         );
-        service.registerMedium(astrologer);
-    }
-    
-    public static void testFindCustomer(long id) {
-        System.out.println("\n==== Test find customer =====");
-        Service service = new Service();
-        Customer c = service.findCustomerById(id);
-        System.out.println(c.getId() + ": " + c.getFirstname() + " " + c.getLastname());
-    }
-    
-    public static void testFindEmployee(long id) {
-        System.out.println("\n==== Test find employee =====");
-        Service service = new Service();
-        Employee e = service.findEmployeeById(id);
-        System.out.println(e.getId() + ": " + e.getFirstname() + " " + e.getLastname());
+        try {
+            service.registerMedium(astrologer);
+            System.out.println("Succès de l'enregistrement de l'astrologue : " + astrologer);
+        } catch (Exception ex) {
+            System.out.println("Échec de l'enregistrement de l'astrologue : " + astrologer);
+        }
     }
     
     public static void testFindMedium(long id) {
@@ -144,6 +184,9 @@ public class Main {
         }
     }
     
+    // ----------------------------------
+    // Consultation services : Tests
+    // ----------------------------------
     public static void testInitConsultation(long idCustomer, long idMedium) throws Exception {
         System.out.println("\n==== Test init consultation =====");
         Service service = new Service();
@@ -205,5 +248,20 @@ public class Main {
         } else {
             System.out.println("Aucune consultation trouvée");
         }
+    }
+    
+    // ----------------------------------
+    // Statistics services : Tests
+    // ----------------------------------
+    public static void testGetNbConsultationsPerMedium() {
+        // TODO
+    }
+    
+    public static void testGetCustomerDistributionPerEmployee() {
+        // TODO
+    }
+    
+    public static void testGetTopMediums() {
+        // TODO
     }
 }
