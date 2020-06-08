@@ -11,6 +11,9 @@ import fr.insalyon.b05.predictifa.models.Customer;
 import fr.insalyon.b05.predictifa.models.Gender;
 import fr.insalyon.b05.predictifa.models.medium.Medium;
 import fr.insalyon.b05.predictifa.models.Employee;
+import fr.insalyon.b05.predictifa.models.medium.Astrologer;
+import fr.insalyon.b05.predictifa.models.medium.FortuneTeller;
+import fr.insalyon.b05.predictifa.models.medium.Spiritualist;
 import fr.insalyon.b05.predictifa.services.Service;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -131,12 +134,30 @@ public class Main {
     public static void testRegistrationMedium() throws Exception {
         System.out.println("\n==== Test registration medium =====");
         Service service = new Service();
-        Medium medium = new Medium(
+        System.out.println("Registration of a fortune teller...");
+        FortuneTeller fortuneTeller = new FortuneTeller(
                 "Serena",
                 Gender.F,
                 "Je suis Serena"
         );
-        service.registerMedium(medium);
+        service.registerMedium(fortuneTeller);
+        System.out.println("Registration of a spiritualist...");
+        Spiritualist spiritualist = new Spiritualist(
+                "Spiritualist",
+                Gender.M,
+                "La présentation du spirituel",
+                "boule de crystal"
+        );
+        service.registerMedium(spiritualist);
+        System.out.println("Registration of a astrologer...");
+        Astrologer astrologer = new Astrologer(
+                "Astrologer",
+                Gender.F,
+                "La présentation de l'astrologue",
+                "La formation",
+                "La promotion"
+        );
+        service.registerMedium(astrologer);
     }
     
     public static void testFindMedium(long id) {
