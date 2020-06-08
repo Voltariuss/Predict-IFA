@@ -70,6 +70,7 @@ public class MainSaisie {
     }
     
     private static void showMediums(Service service) {
+        System.out.println("Liste des médiums : ");
         List<Medium> mediums = service.getAllMediums();
         for (Medium medium: mediums) {
             System.out.println(medium);
@@ -113,6 +114,8 @@ public class MainSaisie {
     }
     
     private static void showCustomerConsultations(Service service, Person person) {
+        
+        System.out.println("Liste de mes consultations: ");
         try {
             List<Consultation> consultations = service.getCustomerConsultations(person.getId());
             for (Consultation consultation: consultations) {
@@ -126,6 +129,7 @@ public class MainSaisie {
     
     
     private static void showEmployeeConsultations(Service service, Person person) {
+        System.out.println("Liste de mes consultations: ");
         try {
             List<Consultation> consultations = service.getEmployeeConsultations(person.getId());
             for (Consultation consultation: consultations) {
@@ -168,6 +172,7 @@ public class MainSaisie {
     
     private static void showCustomerConsultationsById(Service service) {
         Integer customerId = Saisie.lireInteger("Id du client : ");
+        System.out.println("Liste des consultations du client " + customerId);
         try {
             List<Consultation> consultations = service.getCustomerConsultations(customerId);
             for (Consultation consultation: consultations) {
