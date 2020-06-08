@@ -13,6 +13,7 @@ import fr.insalyon.b05.predictifa.services.Service;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -41,6 +42,8 @@ public class Main {
         testFindCustomerConsultations(1L);
         testFindEmployeeCurrentConsultation(2L);
         testFindEmployeeConsultations(2L);
+        
+        testGetNbConsultationsPerMedium();
         
         JpaUtil.destroy();
     }
@@ -254,7 +257,10 @@ public class Main {
     // Statistics services : Tests
     // ----------------------------------
     public static void testGetNbConsultationsPerMedium() {
-        // TODO
+        System.out.println("\n==== Test get nb consultations per medium =====");
+        Service service = new Service();
+        Map<Medium, Long> nbConsultationsPerMedium = service.getNbConsultationsPerMedium();
+        System.out.println("Nombre de consultations par médium : " + nbConsultationsPerMedium);
     }
     
     public static void testGetCustomerDistributionPerEmployee() {
