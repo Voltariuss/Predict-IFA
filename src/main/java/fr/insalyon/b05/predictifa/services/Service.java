@@ -19,6 +19,7 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -470,5 +471,20 @@ public class Service {
 
         JpaUtil.fermerContextePersistance();
         return consultations;
+    }
+    
+    // ----------------------------------
+    // Statistics services
+    // ----------------------------------
+    public Map<Medium, Integer> getNbConsultationsPerMedium() {
+        return null;
+    }
+    
+    public Map<Employee, Map<Customer, Integer>> getCustomerDistributionPerEmployee() {
+        return null;
+    }
+    
+    public List<Map.Entry<Medium, Integer>> getTopMediums(int nbMediums) {
+        return null;
     }
 }
