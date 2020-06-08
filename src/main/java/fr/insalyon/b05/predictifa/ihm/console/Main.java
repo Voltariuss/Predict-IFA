@@ -46,6 +46,7 @@ public class Main {
         
         // Tests statistics
         testGetNbConsultationsPerMedium();
+        testGetCustomerDistributionPerEmployee();
         testGetTopMediums(2);
         
         JpaUtil.destroy();
@@ -305,7 +306,10 @@ public class Main {
     }
     
     public static void testGetCustomerDistributionPerEmployee() {
-        // TODO
+        System.out.println("\n==== Test get customer distribution per employee =====");
+        Service service = new Service();
+        Map<Employee, Map<Customer, Long>> customerDistributionPerEmployee = service.getCustomerDistributionPerEmployee();
+        System.out.println("Distribution des clients par employé : " + customerDistributionPerEmployee);
     }
     
     public static void testGetTopMediums(int nbMediums) {

@@ -532,8 +532,12 @@ public class Service {
         return nbConsultationsPerMedium;
     }
     
-    public Map<Employee, Map<Customer, Integer>> getCustomerDistributionPerEmployee() {
-        return null;
+    public Map<Employee, Map<Customer, Long>> getCustomerDistributionPerEmployee() {
+        EmployeeDAO employeeDao = new EmployeeDAO();
+        JpaUtil.creerContextePersistance();
+        Map<Employee, Map<Customer, Long>> customerDistributionPerEmployee = employeeDao.getCustomerDistributionPerEmployee();
+        JpaUtil.fermerContextePersistance();
+        return customerDistributionPerEmployee;
     }
     
     public List<Pair<Medium, Long>> getTopMediums(int nbMediums) {
