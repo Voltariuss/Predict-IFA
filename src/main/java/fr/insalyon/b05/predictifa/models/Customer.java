@@ -73,12 +73,10 @@ public class Customer extends Person {
     
     public void addConsultation(Consultation consultation) {
         this.consultations.add(consultation);
-        consultation.setCustomer(this);
     }
     
     public void removeConsultation(Consultation consultation) {
         this.consultations.remove(consultation);
-        consultation.setCustomer(null);
     }
     
     @Override

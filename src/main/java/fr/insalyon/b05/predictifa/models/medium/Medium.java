@@ -81,12 +81,10 @@ public class Medium implements Serializable {
     
     public void addConsultation(Consultation consultation) {
         this.consultations.add(consultation);
-        consultation.setMedium(this);
     }
     
     public void removeConsultation(Consultation consultation) {
         this.consultations.remove(consultation);
-        consultation.setMedium(null);
     }
 
     @Override

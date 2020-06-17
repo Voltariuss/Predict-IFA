@@ -41,12 +41,10 @@ public class Employee extends Person {
     
     public void addConsultation(Consultation consultation) {
         this.consultations.add(consultation);
-        consultation.setEmployee(this);
     }
     
     public void removeConsultation(Consultation consultation) {
         this.consultations.remove(consultation);
-        consultation.setEmployee(null);
     }
     
     @Override
