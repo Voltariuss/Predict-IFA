@@ -88,7 +88,6 @@ public class Customer extends Person {
         hash += (this.chineseAstro != null ? this.chineseAstro.hashCode() : 0);
         hash += (this.luckyColor != null ? this.luckyColor.hashCode() : 0);
         hash += (this.totem != null ? this.totem.hashCode() : 0);
-        hash += (this.consultations != null ? this.consultations.hashCode() : 0);
         return hash;
     }
 

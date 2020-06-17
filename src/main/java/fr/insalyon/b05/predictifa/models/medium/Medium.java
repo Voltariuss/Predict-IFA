@@ -96,7 +96,6 @@ public class Medium implements Serializable {
         hash += (denomination != null ? denomination.hashCode() : 0);
         hash += (gender != null ? gender.hashCode() : 0);
         hash += (presentation != null ? presentation.hashCode() : 0);
-        hash += (consultations != null ? consultations.hashCode() : 0);
         return hash;
     }
 

@@ -53,7 +53,6 @@ public class Employee extends Person {
     public int hashCode() {
         int hash = super.hashCode();
         hash += (this.proPhoneNumber != null ? this.proPhoneNumber.hashCode() : 0);
-        hash += (this.consultations != null ? this.consultations.hashCode() : 0);
         return hash;
     }
 
